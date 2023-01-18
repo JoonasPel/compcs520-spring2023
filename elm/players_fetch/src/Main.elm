@@ -46,8 +46,8 @@ playersDecoder =
 
 
 fetchPlayers : String -> Cmd Msg
-fetchPlayers url = Cmd.none
-
+fetchPlayers url =
+    Http.get {url = url, expect = Http.expectJson FetchPlayers playersDecoder}
 
 
 listLast : List a -> Maybe a
@@ -74,25 +74,73 @@ init _ =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        SetName word ->
-            ( model, Cmd.none )
+        SetName name ->
+            let 
+                oldPlayer = model.newPlayer
+                newPlayer = { oldPlayer | name = name}
+            in
+                ({ model | newPlayer = newPlayer }, Cmd.none)
 
         AddPlayer ->
-            ( model, Cmd.none )
+            let 
+                addedPlayer = model.newPlayer
+                initialPlayer = initPlayer (addedPlayer.id + 1)
+            in
+            ({ 
+                model | players = model.players ++ [addedPlayer] , 
+                newPlayer = initialPlayer
+            }, Cmd.none)
 
         DeletePlayer id ->
-            ( model, Cmd.none )
+            let
+                existingPlayers = List.filter (\player -> player.id /= id) model.players
+            in
+                ({ model | players = existingPlayers}, Cmd.none)
 
         ModifyPlayer id status ->
-            ( model, Cmd.none )
+            let
+                newPlayers = List.map (\p -> if p.id == id then { p | isActive = status} else p) model.players             
+            in
+                ({ model | players = newPlayers}, Cmd.none)
 
         FetchPlayers data ->
-            ( model, Cmd.none )
+            case data of
+                Ok players -> 
+                    let
+                        playersAmount = List.length players
+                        initialPlayer = initPlayer (playersAmount + 1)
+                    in
+                    ({ 
+                        model | players = players, 
+                        newPlayer = initialPlayer,
+                        reqStatus = ""
+                    }, Cmd.none)
+                Err error ->
+                    ( {model | reqStatus = "An error has occurred!!!"}, Cmd.none)
+            
 
 
 view : Model -> Html Msg
 view model =
-    h1 [] [ text "Elm Exercise: Players Fetch" ]
+    div [] 
+        [ h1 [] [ text "Elm Exercise: Players CRUD" ] ,
+
+          Html.form [id "submit-player", onSubmit AddPlayer]
+          [ 
+          input [id "input-player", type_ "text", value model.newPlayer.name, placeholder "Enter new player", onInput SetName] [] ,
+          button [id "btn-add" , type_ "submit"] [ text "Add" ]
+          ] ,
+
+          ol [id "players-list"]
+            (List.map (\player -> li [id ("player-" ++ String.fromInt player.id)]
+                        [
+                        div [class "player-name"] [text player.name] ,
+                            label [class "player-status"] [input [class "player-status", type_ "checkbox", checked player.isActive, 
+                            onCheck (ModifyPlayer player.id)] [text "active"], span [class "checkmark"] [] ]
+                        , button [class "btn-delete", onClick (DeletePlayer player.id)] [text "Delete"]
+                        ]) model.players),
+          div [id "request-status"] [text model.reqStatus]       
+        ]
 
 
 main : Program () Model Msg
