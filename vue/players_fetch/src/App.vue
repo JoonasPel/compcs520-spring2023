@@ -40,26 +40,27 @@ export default {
     }
   },
   created() {
-    this.reqStatus = REQ_STATUS["loading"]
     this.fetchPlayers()
   },
   methods: {
     async fetchPlayers() {
+      this.reqStatus = REQ_STATUS["loading"]
       try {
         await fetch('http://localhost:3001/api/players/')
                 .then(response => response.json())
                 .then(json => { this.players = json })
-                .then(this.reqStatus = REQ_STATUS["success"])
+                .finally(() => this.reqStatus = REQ_STATUS["success"])
       } catch (error) {
         this.reqStatus = REQ_STATUS["error"]
       }
     },
-    async fetchPlayer(playerId) {     
+    async fetchPlayer(playerId) {
+      this.reqStatus = REQ_STATUS["loading"]     
       try {
         await fetch('http://localhost:3001/api/players/' + playerId)
                 .then(response => response.json())
                 .then(json => { this.player = json })
-                .then(this.reqStatus = REQ_STATUS["success"])
+                .finally(() => this.reqStatus = REQ_STATUS["success"])
       } catch (error) {
         this.reqStatus = REQ_STATUS["error"]
       }
