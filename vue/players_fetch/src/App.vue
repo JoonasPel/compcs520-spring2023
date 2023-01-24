@@ -14,7 +14,7 @@
  <template>
   <div>
     <RequestStatus v-bind:reqStatus="reqStatus"/>
-    <ListPlayers v-bind:players="players" @getPlayerEvent="fetchPlayer"/>
+    <ListPlayers v-bind:players="players" v-bind:getPlayer="getPlayer"/>
     <SelectedPlayer v-bind:player="player"/>
   </div>
 </template>
@@ -54,7 +54,7 @@ export default {
         this.reqStatus = REQ_STATUS["error"]
       }
     },
-    async fetchPlayer(playerId) {
+    async getPlayer(playerId) {
       this.reqStatus = REQ_STATUS["loading"]     
       try {
         await fetch('http://localhost:3001/api/players/' + playerId)

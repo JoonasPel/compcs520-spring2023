@@ -10,7 +10,7 @@
 
 <template>
   <li id={{player.id}}>
-    <a href="#" @click="$emit('playerClickEvent', player.id)">{{ player.name }}</a>
+    <a href="#" @click="$emit('player-clicked', player.id)">{{ player.name }}</a>
   </li>
 </template>
 

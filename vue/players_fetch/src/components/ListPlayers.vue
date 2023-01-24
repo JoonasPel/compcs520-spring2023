@@ -17,7 +17,7 @@
     <h2>List of players</h2>
     <ul id="players-list">
       <li v-for="player in players">
-        <ListPlayer v-bind:player="player" @playerClickEvent="getPlayerFunction"/>
+        <ListPlayer v-bind:player="player" @player-clicked="getPlayer"/>
       </li>
     </ul>
   </div>
@@ -27,14 +27,9 @@
 import ListPlayer from './ListPlayer.vue';
 
 export default {
-  props: ['players', 'fetchPlayer'],
+  props: ['players', 'getPlayer'],
   components: {
     ListPlayer
-  },
-  methods: {
-    getPlayerFunction(value) {
-      this.$emit('getPlayerEvent', value)
-    }
   }
 };
 </script>
