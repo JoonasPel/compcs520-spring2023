@@ -1,19 +1,22 @@
 <!-- 
   Student instructions: 
   
-  1. Create a li element with a dynamic id attribute set to "player-" concatenated with the player's id. Example: "player-2", where 2 is the id. Inside the li element, add an anchor tag <a>.
+  1. Create a li element with a dynamic id attribute set to "player-" concatenated with the player's id. Example: "player-2",
+  where 2 is the id. Inside the li element, add an anchor tag <a>.
 
-  2. In the a tag, bind an event that calls a function or emits the player-clicked event with the player's id as an argument. Add the href attribute with "#". The link text should display the player's name using the provided player object prop. 
+  2. In the a tag, bind an event that calls a function or emits the player-clicked event with the player's id as an argument. 
+  Add the href attribute with "#". The link text should display the player's name using the provided player object prop. 
  -->
 
 <template>
-  <li>
-    TODO: ListPlayer
+  <li id={{player.id}}>
+    <a href="#" @click="$emit('playerClickEvent', player.id)">{{ player.name }}</a>
   </li>
 </template>
 
 <script>
 export default {
+  props: ['player']
 };
 </script>
 
