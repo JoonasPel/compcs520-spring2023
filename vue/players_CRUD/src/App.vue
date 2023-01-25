@@ -41,7 +41,7 @@ export default {
     return {
       players: [],
       player: "",
-      reqStatus: REQ_STATUS["loading"]
+      reqStatus: ""
     }
   },
   created() {
@@ -100,7 +100,7 @@ export default {
           method: "DELETE"
         };
         const response = await fetch(URL + '/api/players/' + playerId, requestOptions);
-        if (response.status == 200) {
+        if (response.status == 200 || response.status == 204) {
           // Remove deleted player from local player list if deleting in db was successful
           this.players = this.players.filter(player => player.id != playerId);
           this.reqStatus = REQ_STATUS["success"];

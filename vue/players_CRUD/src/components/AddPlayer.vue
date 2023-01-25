@@ -2,7 +2,8 @@
 <!-- 
   Student instructions to create this component:
 
-  1. Create a form with an id of "submit-player" for submitting a new player. It emits an event called "add-player" with the name of the new player as a parameter when submitted.
+  1. Create a form with an id of "submit-player" for submitting a new player. It emits an event called "add-player" with
+  the name of the new player as a parameter when submitted.
 
   2. Inside the form: Create an input field with an id of "input-player" where the name of the new player should be added.
   Optionally Add a placeholder attribute for the input.
