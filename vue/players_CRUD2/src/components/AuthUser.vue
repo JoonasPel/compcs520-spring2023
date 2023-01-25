@@ -25,13 +25,17 @@
 
 <template>
   <div>
-    <form @submit.prevent>
+    <a v-if="!inLoginScreen && !isLoggedIn" @click="inLoginScreen=true">Go to login</a>
+    <a v-if="inLoginScreen && !isLoggedIn" @click="inLoginScreen=false">Go to register</a>
+    <a v-if="isLoggedIn" @click="$emit('logout')">Logout</a>
+
+    <form @submit.prevent @submit="submit" v-if="!isLoggedIn">
       <input id="auth-username" name="auth-username" type="text" v-model="username">
       <input id="auth-password" name="auth-password" type="password" v-model="password">
 
-      <input class="btn-auth" type="submit" value="INININ" @submit="logIn" >
+      <input class="btn-auth" type="submit" value="register" v-if="!inLoginScreen">
+      <input class="btn-auth" type="submit" value="login" v-if="inLoginScreen">
       
-
     </form>
   </div>
 </template>
@@ -41,14 +45,18 @@ export default {
   props: ['isLoggedIn'],
   data() {
     return {
+      inLoginScreen: false,
       username: "",
       password: ""
     }
   },
   methods: {
-    logIn() {
-      this.$emit('login', [this.username, this.password]);
-      this.inputName = "";
+    submit() {
+      let event = "";
+      if (this.inLoginScreen) { event = 'login'} else { event = 'register'}
+      this.$emit(event, {username: this.username, password: this.password});
+      this.username = "";
+      this.password = "";
     }
   }
 };

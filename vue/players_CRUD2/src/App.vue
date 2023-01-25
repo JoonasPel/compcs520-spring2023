@@ -35,7 +35,7 @@
   players, then the user should stay logged out. If it succeeds, the user should be logged in and the app state should
   be updated accordingly and the players list should be displayed. Notice that separate login is not required after a
   successful registration, because the user is already logged in.
-  
+  -----
   3. Create a method for logging in when the AuthUser component emits the "login" event. This method should handle the
   logic for logging in a user. As described earlier, the backend does not have a separate login endpoint. Instead, the
   app should try to fetch players from the database with the given credentials using Basic auth. If the request is
@@ -52,7 +52,7 @@
 
  <template>
   <div>
-    <AuthUser v-bind:isLoggedIn="isLoggedIn" @login="login" @register="register" @logout="logout" v-if="!isLoggedIn"/>
+    <AuthUser v-bind:isLoggedIn="isLoggedIn" @login="login" @register="register" @logout="logout"/>
     <RequestStatus v-bind:reqStatus="reqStatus"/>
     <AddPlayer @add-player="addPlayer" v-if="isLoggedIn"/>
     <ListPlayers v-bind:players="players" v-bind:getPlayer="getPlayer" v-if="isLoggedIn"/>
@@ -87,7 +87,7 @@ export default {
     }
   },
   created() {
-    this.register("admin2", "secret2");
+    //this.register("admin2", "secret2");
     //this.fetchPlayers();
   },
   methods: {
@@ -209,22 +209,22 @@ export default {
         this.reqStatus = REQ_STATUS["error"];
       }
     },
-    async register(username, password) {
+    async register(options) {
       this.reqStatus = REQ_STATUS["loading"];
       try {
         const requestOptions = {
           method: "POST",
-          headers: { "Content-Type": "application/json"},
+          headers: {"Content-Type": "application/json"},
           body: JSON.stringify({
-            username: username,
-            password: password
+            username: options.username,
+            password: options.password
           })
         };
         const response = await fetch(URL + '/api/users', requestOptions);
         if (response.status == 201) {
           const data = await response.json();
           this.username = data.username;
-          this.password = password;
+          this.password = options.password;
           // if registration success, fetch players and update state
           this.fetchPlayers();
           this.isLoggedIn = true;
@@ -236,6 +236,42 @@ export default {
       } catch (error) {
         this.reqStatus = REQ_STATUS["error"];
       }
+    },
+    async login(options) {
+      this.reqStatus = REQ_STATUS["loading"];
+      let credentials = options.username + ':' + options.password;
+      try {
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Basic ${window.btoa(credentials)}`
+          }
+        };
+        // no login api in backend so if fetching players is successful -> player is logged in
+        const response = await fetch(URL + '/api/players', requestOptions); 
+        if (response.status == 200) {
+          this.isLoggedIn = true;
+          this.username = options.username;
+          this.password = options.password;
+          const data = await response.json();
+          this.players = data;
+          this.reqStatus = REQ_STATUS["success"];
+        } else {
+          this.reqStatus = REQ_STATUS["error"];
+        }
+      } catch (error) {
+        this.reqStatus = REQ_STATUS["error"];
+      }
+    },
+    logout() {
+      // separate function to save initial state and reset using that would be better
+      this.players = []
+      this.player = ""
+      this.reqStatus = ""
+      this.isLoggedIn = false
+      this.username = ""
+      this.password = ""
     }
   },
   components: {
