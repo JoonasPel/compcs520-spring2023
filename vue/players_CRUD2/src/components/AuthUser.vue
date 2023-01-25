@@ -29,7 +29,7 @@
     <a v-if="inLoginScreen && !isLoggedIn" @click="inLoginScreen=false">Go to register</a>
     <a v-if="isLoggedIn" @click="$emit('logout')">Logout</a>
 
-    <form @submit.prevent @submit="submit" v-if="!isLoggedIn">
+    <form id="auth-form" @submit.prevent @submit="submit" v-if="!isLoggedIn">
       <input id="auth-username" name="auth-username" type="text" v-model="username">
       <input id="auth-password" name="auth-password" type="password" v-model="password">
 
@@ -45,7 +45,7 @@ export default {
   props: ['isLoggedIn'],
   data() {
     return {
-      inLoginScreen: false,
+      inLoginScreen: true, // defaults to login screen (not register screen)
       username: "",
       password: ""
     }
