@@ -2,14 +2,15 @@
   Copy paste your code from the ListPlayer.vue file here from the previous exercise
  -->
 
-<template>
-  <div>
-    TODO: ListPlayer
-  </div>
+ <template>
+  <li v-bind:id="'player-' + player.id">
+    <a href="#" @click="$emit('player-clicked', player.id)">{{ player.name }}</a>
+  </li>
 </template>
 
 <script>
 export default {
+  props: ['player']
 };
 </script>
 

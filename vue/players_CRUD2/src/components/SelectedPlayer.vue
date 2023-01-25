@@ -2,19 +2,45 @@
   Copy paste your code from the SelectedPlayer.vue file here from the previous exercise
  -->
 
-<template>
+ <template>
   <div>
     <h3>Selected Player</h3>
-    TODO: SelectedPlayer
+    <div id="selected-player" v-if="player">
+
+      <div class="player-id">{{ player.id }}</div>
+      <div id="player-name">{{ player.name }}</div>
+
+      <div id="player-status" v-if="player.isActive">
+        <label id="checkbox-label">
+          <input type="checkbox" id="checkbox" :checked=player.isActive v-model="check">
+          <span class="checkmark"></span>
+          active
+        </label>
+      </div>
+      <div id="player-status" v-else-if="!player.isActive">
+        <label id="checkbox-label">
+          <input type="checkbox" id="checkbox" :checked=player.isActive v-model="check">
+          <span class="checkmark"></span>
+          inactive
+        </label>
+      </div>
+      
+      <button class="btn-update" :disabled="check === true" @click="$emit('put-player', player)">Update</button>
+      <button class="btn-delete" @click="$emit('delete-player', player.id)">Delete</button>
+
+    </div>
   </div>
 </template>
 
 <script>
-// import { watch } from 'vue';
 export default {
+  data() {
+    return {
+      checked: true
+    }
+  },
+  props: ['player']
 };
-
-
 </script>
 
 
