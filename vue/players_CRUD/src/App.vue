@@ -41,7 +41,7 @@ export default {
     return {
       players: [],
       player: "",
-      reqStatus: ""
+      reqStatus: REQ_STATUS["loading"]
     }
   },
   created() {
