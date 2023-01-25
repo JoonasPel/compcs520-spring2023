@@ -20,7 +20,7 @@
     <h3>
       Add Player
     </h3>
-    <form id="submit-player" @submit="submitForm" @submit.prevent="signInButtonPressed">
+    <form id="submit-player" @submit="$emit('add-player', inputName)" @submit.prevent="signInButtonPressed">
       <input id="input-player" type="text" v-model="inputName" placeholder="Write Name Here!">
       <input class="btn-add" type="submit" value="Add Player!">
     </form>
@@ -30,17 +30,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      inputName: ""
-    }
-  },
-  props: ['addPlayer'],
-  methods: {
-    submitForm() {
-      this.$emit('submitForm', this.inputName);
-    }
-  }
 };
 </script>
 

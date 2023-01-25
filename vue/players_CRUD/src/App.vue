@@ -16,7 +16,7 @@
 <template>
   <div>
     <RequestStatus v-bind:reqStatus="reqStatus"/>
-    <AddPlayer v-bind:addPlayer="addPlayer" @submitForm="addPlayer"/>
+    <AddPlayer @add-player="addPlayer"/>
     <ListPlayers v-bind:players="players" v-bind:getPlayer="getPlayer"/>
     <SelectedPlayer v-bind:player="player" @delete-player="deletePlayer" @put-player="updatePlayer"/>
   </div>
