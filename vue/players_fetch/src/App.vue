@@ -46,10 +46,10 @@ export default {
     async fetchPlayers() {
       this.reqStatus = REQ_STATUS["loading"]
       try {
-        await fetch('http://localhost:3001/api/players/')
-                .then(response => response.json())
-                .then(json => { this.players = json })
-                .finally(() => this.reqStatus = REQ_STATUS["success"])
+        const response = await fetch('http://localhost:3001/api/players/')
+        const data = await response.json()
+        this.players = data
+        this.reqStatus = REQ_STATUS["success"]
       } catch (error) {
         this.reqStatus = REQ_STATUS["error"]
       }
@@ -57,10 +57,10 @@ export default {
     async getPlayer(playerId) {
       this.reqStatus = REQ_STATUS["loading"]     
       try {
-        await fetch('http://localhost:3001/api/players/' + playerId)
-                .then(response => response.json())
-                .then(json => { this.player = json })
-                .finally(() => this.reqStatus = REQ_STATUS["success"])
+        const response = await fetch('http://localhost:3001/api/players/' + playerId)
+        const data = await response.json()
+        this.player = data
+        this.reqStatus = REQ_STATUS["success"]
       } catch (error) {
         this.reqStatus = REQ_STATUS["error"]
       }
