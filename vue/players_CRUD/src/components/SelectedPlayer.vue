@@ -5,24 +5,61 @@
 
   - Display the player's id in an element with the class attribute "player-id".
 
-  - Inside the element with the id "player-status", add a label with the text "active" or "inactive" depending on the status of the player. The label should have an id of "checkbox-label", and inside it there should be a checkbox with an id of "checkbox". By default, the checkbox should be checked if the player is active and unchecked if the player is inactive. Unlike in elm exercises, toggling the checkbox should not automatically update the player in the backend, instead it is done by the update button (check next point). For styling purposes, add an empty span with the class attribute "checkmark" inside the label.
+  - Inside the element with the id "player-status", add a label with the text "active" or "inactive" depending on the status
+  of the player. The label should have an id of "checkbox-label", and inside it there should be a checkbox with an id of "checkbox".
+  By default, the checkbox should be checked if the player is active and unchecked if the player is inactive. Unlike in elm
+  exercises, toggling the checkbox should not automatically update the player in the backend, instead it is done by the update
+  button (check next point). For styling purposes, add an empty span with the class attribute "checkmark" inside the label.
 
-  - Add an update button with the class attribute "btn-update". The button should be disabled if the current active state of the checkmark is not different from the players "isActive" state. Add logic to emit the "put-player" event when the button is clickable and the user clicks it. The event should pass the player object as a parameter.
+  - Add an update button with the class attribute "btn-update". The button should be disabled if the current active state of
+  the checkmark is not different from the players "isActive" state. Add logic to emit the "put-player" event when the button
+  is clickable and the user clicks it. The event should pass the player object as a parameter.
 
-  - Add a delete button with the class attribute "btn-delete". Add logic to emit the "delete-player" event when the user clicks the button. The event should pass the id of the player as a parameter.
+  - Add a delete button with the class attribute "btn-delete". Add logic to emit the "delete-player" event when the user
+  clicks the button. The event should pass the id of the player as a parameter.
 
+TODO MAKE UPDATE BUTTON DISABLED IF NO NEED TO UPDATE
  -->
 
 
  <template>
   <div>
     <h3>Selected Player</h3>
-    TODO: SelectedPlayer
+    <div id="selected-player" v-if="player">
+
+      <div class="player-id">{{ player.id }}</div>
+      <div id="player-name">{{ player.name }}</div>
+
+      <div id="player-status" v-if="player.isActive">
+        <label id="checkbox-label">
+          <input type="checkbox" id="checkbox" :checked=player.isActive v-model="check">
+          <span class="checkmark"></span>
+          active
+        </label>
+      </div>
+      <div id="player-status" v-else-if="!player.isActive">
+        <label id="checkbox-label">
+          <input type="checkbox" id="checkbox" :checked=player.isActive v-model="check">
+          <span class="checkmark"></span>
+          inactive
+        </label>
+      </div>
+      
+      <button class="btn-update" :disabled="check === true" @click="$emit('put-player', player)">Update</button>
+      <button class="btn-delete" @click="$emit('delete-player', player.id)">Delete</button>
+
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      checked: true
+    }
+  },
+  props: ['player']
 };
 </script>
 

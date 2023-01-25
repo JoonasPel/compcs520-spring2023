@@ -2,9 +2,11 @@
 <!-- 
   Student instructions to create this component:
 
-  1. Create a form with an id of "submit-player" and a submit event listener that calls the addPlayer function. Hint: Remember to prevent the default behavior of the submit event.
+  1. Create a form with an id of "submit-player" and a submit event listener that calls the addPlayer function. Hint:
+  Remember to prevent the default behavior of the submit event.
 
-  2. Inside the form: Create an input field with an id of "input-player" where the name of the new player should be added. Optionally Add a placeholder attribute for the input.
+  2. Inside the form: Create an input field with an id of "input-player" where the name of the new player should be added.
+  Optionally Add a placeholder attribute for the input.
 
   3. Inside the form: Create a button with a class of "btn-add" that will submit the form when clicked.
 
@@ -14,15 +16,31 @@
 
  <template>
   <div>
+
     <h3>
       Add Player
     </h3>
-    TODO: AddPlayer
+    <form id="submit-player" @submit="submitForm" @submit.prevent="signInButtonPressed">
+      <input id="input-player" type="text" v-model="inputName" placeholder="Write Name Here!">
+      <input class="btn-add" type="submit" value="Add Player!">
+    </form>
+
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      inputName: ""
+    }
+  },
+  props: ['addPlayer'],
+  methods: {
+    submitForm() {
+      this.$emit('submitForm', this.inputName);
+    }
+  }
 };
 </script>
 

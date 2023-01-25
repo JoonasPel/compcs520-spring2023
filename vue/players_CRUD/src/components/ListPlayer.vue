@@ -3,14 +3,15 @@
  -->
 
 
-<template>
-  <li>
-    TODO: ListPlayer
+ <template>
+  <li v-bind:id="'player-' + player.id">
+    <a href="#" @click="$emit('player-clicked', player.id)">{{ player.name }}</a>
   </li>
 </template>
 
 <script>
 export default {
+  props: ['player']
 };
 </script>
 

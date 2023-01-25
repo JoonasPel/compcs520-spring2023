@@ -6,12 +6,13 @@
  <template>
   <div>
     <h3>Request status</h3>
-    TODO: RequestStatus
+    <div id="request-status"> {{reqStatus}} </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['reqStatus']
 };
 </script>
 
