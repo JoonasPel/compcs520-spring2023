@@ -55,7 +55,7 @@ function App() {
 		fetch(URL)
 		.then(response => response.json())
 		.then(data => setPlayers(data))
-		.then(setReqStatus(REQ_STATUS.success))
+		.then(() => { setReqStatus(REQ_STATUS.success); })
 
 		.catch((error) => {
 			console.log(error);
@@ -68,7 +68,7 @@ function App() {
 		fetch(URL + playerId)
 		.then(response => response.json())
 		.then(data => setSelectedPlayer(data))
-		.then(setReqStatus(REQ_STATUS.success))
+		.then(() => { setReqStatus(REQ_STATUS.success); })
 
 		.catch((error) => {
 			console.log(error);
