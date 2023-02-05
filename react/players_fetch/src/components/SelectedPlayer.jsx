@@ -14,10 +14,15 @@
  */
 
 export const SelectedPlayer = ({ player }) => {
+	if (!player) return (null);
+
 	return (
 		<div>
 			<h3>Selected Player</h3>
-			TODO: SelectedPlayer
+			<div id="selected-player">
+				<div id="player-name">{player.name}</div>
+				<div id="player-status">{player.isActive ? "active" : "inactive"}</div>
+			</div>
 		</div>
 	);
 };

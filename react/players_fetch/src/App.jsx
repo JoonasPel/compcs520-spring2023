@@ -22,22 +22,65 @@
  * the request is successful, and "error" for when the request has failed.
  */
 
+// --------- IMPORTS ---------
+import React, { useState, useEffect } from 'react';
+
+// --------- COMPONENT IMPORTS ---------
 import { ListPlayers } from './components/ListPlayers.jsx';
 import { SelectedPlayer } from './components/SelectedPlayer.jsx';
 import { RequestStatus } from './components/RequestStatus.jsx';
 
+// --------- CONST VALUES ---------
 const REQ_STATUS = {
 	loading: 'Loading...',
 	success: 'Finished!',
 	error: 'An error has occurred!!!',
 };
+const URL = "http://localhost:3001/api/players/";
+
+
+//const context = React.createContext('testingc');
 
 function App() {
+	// --------- STATE ---------
+	const [reqStatus, setReqStatus] = useState(REQ_STATUS.loading);
+	const [players, setPlayers] = useState([]);
+	const [selectedPlayer, setSelectedPlayer] = useState("");
+
+	// --------- FUNCTIONS ---------
+	useEffect(() => { fetchPlayers() }, []);
+
+	function fetchPlayers() {
+		setReqStatus(REQ_STATUS.loading);
+		fetch(URL)
+		.then(response => response.json())
+		.then(data => setPlayers(data))
+		.then(setReqStatus(REQ_STATUS.success))
+
+		.catch((error) => {
+			console.log(error);
+			setReqStatus(REQ_STATUS.error);
+		});
+	};
+
+	function fetchPlayer(playerId) {
+		setReqStatus(REQ_STATUS.loading);
+		fetch(URL + playerId)
+		.then(response => response.json())
+		.then(data => setSelectedPlayer(data))
+		.then(setReqStatus(REQ_STATUS.success))
+
+		.catch((error) => {
+			console.log(error);
+			setReqStatus(REQ_STATUS.error);
+		});
+	};
+
 	return (
 		<>
-			<RequestStatus />
-			<ListPlayers />
-			<SelectedPlayer />
+			<RequestStatus status={reqStatus} />
+			<ListPlayers players={players} selectPlayer={fetchPlayer}/>
+			<SelectedPlayer player={selectedPlayer}/>
 		</>
 	);
 }
