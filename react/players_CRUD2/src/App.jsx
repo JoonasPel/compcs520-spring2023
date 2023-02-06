@@ -40,7 +40,7 @@ const URL = "http://localhost:3001/api/players/";
 
 function App() {
 	// --------- STATE ---------
-	const [reqStatus, setReqStatus] = useState(REQ_STATUS.loading);
+	const [reqStatus, setReqStatus] = useState(REQ_STATUS.success);
 	const [players, setPlayers] = useState([]);
 	const [selectedPlayer, setSelectedPlayer] = useState("");
 	const [username, setUsername] = useState("");
@@ -205,8 +205,9 @@ function App() {
 			}
 		};
 		fetch(URL, requestOptions)
-		.then((response) => {
-			setPlayers(response.json());
+		.then(response => response.json())
+		.then(data => {
+			setPlayers(data);
 			setUsername(name);
 			setPassword(password);
 			setIsLoggedIn(true);
@@ -219,8 +220,7 @@ function App() {
 	};
 
 	function logout() {
-		console.log("logout");
-		setReqStatus(REQ_STATUS.loading);
+		setReqStatus(REQ_STATUS.success);
 		setPlayers([]);
 		setSelectedPlayer("");
 		setUsername("");

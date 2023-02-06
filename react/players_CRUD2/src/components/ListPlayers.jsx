@@ -6,6 +6,8 @@
 import { ListPlayer } from './ListPlayer';
 
 export const ListPlayers = ({ players, selectPlayer }) => {
+	if (players == []) return (null);
+
 	return (
 		<div>
 			<h2>List of players</h2>
