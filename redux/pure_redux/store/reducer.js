@@ -37,7 +37,34 @@ import * as actions from './actionTypes.js';
  * @returns {Array} the new state of the application
  */
 
-const playersReducer = (state = [], action) => {};
+let maxId = 0;
+
+const playersReducer = (state = [], action) => {
+    let newState = JSON.parse(JSON.stringify(state));
+
+    switch (action.type) {
+
+        case actions.ADD_PLAYER:
+            maxId += 1;         
+            newState.push({id: maxId, name: action.payload.name, isActive: action.payload.isActive});
+            return newState;
+       
+        case actions.REMOVE_PLAYER:
+            newState = newState.filter(player => player.id != action.payload.id);
+            return newState;
+
+        case actions.TOGGLE_PLAYER_STATUS:
+            let idx = newState.findIndex((player) => player.id === action.payload.id);
+            if (idx === -1) {
+                return newState;
+            }
+            newState[idx].isActive = !newState[idx].isActive;
+            return newState;
+
+        default:
+            return state;
+    }
+};
 
 export default playersReducer;
 
