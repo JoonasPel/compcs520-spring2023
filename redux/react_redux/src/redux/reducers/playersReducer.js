@@ -10,7 +10,10 @@ import { SET_PLAYERS } from '../constants';
  * @param {*} action - The action to be performed.
  * @returns {Array} - The players in an array.
  */
-const playersReducer = (state = [], action) => {
+
+const initialState = [];
+
+const playersReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_PLAYERS:
 			return action.payload.players;			

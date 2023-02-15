@@ -12,7 +12,10 @@ import { CLEAR_SELECTED_PLAYER, SET_SELECTED_PLAYER } from '../constants';
  * @param {*} action - The action to be performed.
  * @returns {Object} - The selected player
  */
-const selectedPlayerReducer = (state = {}, action) => {
+
+const initialState = {};
+
+const selectedPlayerReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_SELECTED_PLAYER:
 			return action.payload.selectedPlayer;

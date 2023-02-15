@@ -3,6 +3,7 @@
 import { REQ_STATUS, SET_REQUEST_STATUS } from '../constants';
 
 // This is the default state
+const initialState = REQ_STATUS.loading;
 
 /**
  * @description reducer for status that returns the status of the request. The default state is 'Loading...'. The action type is SET_REQUEST_STATUS.
@@ -12,7 +13,7 @@ import { REQ_STATUS, SET_REQUEST_STATUS } from '../constants';
  * @param {*} action  - The action to be performed.
  * @returns  {String} - The status of the request
  */
-const statusReducer = (state = REQ_STATUS.loading, action) => {
+const statusReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_REQUEST_STATUS:
 			return action.payload.status;
