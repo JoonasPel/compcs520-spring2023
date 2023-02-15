@@ -12,6 +12,6 @@ import { SET_PLAYERS } from '../constants';
 export const setPlayers = (players) => {
     return {
         type: SET_PLAYERS,
-        payload: {players: players}
+        payload: players
     };
 };
