@@ -18,7 +18,12 @@ const initialState = {};
 const selectedPlayerReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_SELECTED_PLAYER:
-			return action.payload.selectedPlayer;
+			if (action.payload.selectedPlayer) {
+				return action.payload.selectedPlayer;
+			} else {
+				return action.payload;
+			}
+			
 		case CLEAR_SELECTED_PLAYER:
 			return {};
 		default:
