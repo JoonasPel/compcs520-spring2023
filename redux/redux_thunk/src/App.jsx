@@ -9,19 +9,61 @@
  * You can however copy paste the App.jsx file from the previous exercises into this file so that you may start off with a working app.
  */
 
-import { RequestStatus } from './components/RequestStatus.jsx';
-import { AddPlayer } from './components/AddPlayer.jsx';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { REQ_STATUS } from './redux/constants.js';
+import { setStatus } from './redux/actionCreators/statusActions';
+import { setPlayers } from './redux/actionCreators/playersActions';
+import { setSelectedPlayer, clearSelectedPlayer } from './redux/actionCreators/selectedPlayerActions';
+
+// --------- COMPONENT IMPORTS ---------
 import { ListPlayers } from './components/ListPlayers.jsx';
+import { AddPlayer } from './components/AddPlayer.jsx';
 import { SelectedPlayer } from './components/SelectedPlayer.jsx';
+import { RequestStatus } from './components/RequestStatus.jsx';
+
+const URL = "http://localhost:3001/api/players/";
 
 function App() {
+  const dispatch = useDispatch();
+
+	// --------- FUNCTIONS ---------
+	useEffect(() => { fetchPlayers() }, []);
+
+	function fetchPlayers() {
+		dispatch(setStatus(REQ_STATUS.loading));
+		fetch(URL)
+		.then(response => response.json())
+		.then(data => dispatch(setPlayers(data)))
+		.then(() => { dispatch(setStatus(REQ_STATUS.success)); })
+
+		.catch((error) => {
+			console.log(error);
+      dispatch(setStatus(REQ_STATUS.error));
+		});
+	};
+
+	function fetchPlayer(playerId) {
+		dispatch(setStatus(REQ_STATUS.loading));
+		fetch(URL + playerId)
+		.then(response => response.json())
+		.then(data => dispatch(setSelectedPlayer(data)))
+		.then(() => { dispatch(setStatus(REQ_STATUS.success)); })
+
+		.catch((error) => {
+			console.log(error);
+			dispatch(setStatus(REQ_STATUS.error));
+		});
+	};
+
 	return (
 		<>
 			<RequestStatus />
 			<AddPlayer />
-			<ListPlayers />
+			<ListPlayers selectPlayer={fetchPlayer}/>
 			<SelectedPlayer />
 		</>
 	);
 }
+
 export default App;

@@ -7,7 +7,14 @@
  * @param {Array} players - The players ids and names in an array.
  * @return {Object} action
  */
-export const setPlayers = (players) => ({});
+import { SET_PLAYERS } from '../constants';
+
+export const setPlayers = (players) => {
+    return {
+        type: SET_PLAYERS,
+        payload: {players: players}
+    };
+};
 
 /**
  * @description normal action creator that returns an action with type ADD_PLAYER to the frontends reducers along with the payload that includes player.

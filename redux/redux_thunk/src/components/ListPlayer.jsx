@@ -6,6 +6,10 @@
  * - getSelectedPlayer, found in src\redux\actionCreators\thunks\ListPlayer.jsx
  */
 
-export const ListPlayer = ({ name, id }) => {
-	return 'TODO: ListPlayer';
+export const ListPlayer = ({ name, id, onClick }) => {
+	return (
+		<li id={'player-' + id}>
+			<a href="#" onClick={() => onClick(id)}>{name}</a>
+		</li>
+	);
 };
