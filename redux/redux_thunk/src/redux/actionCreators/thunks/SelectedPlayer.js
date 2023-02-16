@@ -18,18 +18,23 @@
 import { useDispatch } from 'react-redux';
 import { setStatus } from "../statusActions";
 import { REQ_STATUS } from '../../constants';
-import { removePlayer } from '../playersActions';
+import { removePlayer, updatePlayer } from '../playersActions';
 import { clearSelectedPlayer } from '../selectedPlayerActions';
 import { useSelector } from "react-redux";
+import store from '../../store';
+
+const URL = "http://localhost:3001/api/players/";
 
 export const deleteSelectedPlayer = () => {
     return function(dispatch) {
-        const player = useSelector((state) => state.selectedPlayer);
+        const state = store.getState();
+        const playerId = state.selectedPlayer.id;
+
         dispatch(setStatus(REQ_STATUS.loading));
         const requestOptions = { method: 'DELETE' };
-        fetch(URL + player.id, requestOptions)
+        fetch(URL + playerId, requestOptions)
         .then(response => response.json())
-        .then(data => { dispatch(removePlayer(player.id)); })
+        .then(data => { dispatch(removePlayer(playerId)); })
         .then(() => { dispatch(setStatus(REQ_STATUS.success)); })
         .then(() => { dispatch(clearSelectedPlayer()); })
         .catch((error) => {
@@ -59,4 +64,23 @@ export const deleteSelectedPlayer = () => {
  * Hint: You have to get required details of the selected player from the store.
  *
  */
-export const updateSelectedPlayer = (updatedActivity) => {};
+export const updateSelectedPlayer = (updatedActivity) => {
+    return function(dispatch) {
+        const state = store.getState();
+        const playerId = state.selectedPlayer.id;
+        dispatch(setStatus(REQ_STATUS.loading));
+        const requestOptions = {
+			method: 'PUT',
+          	headers: { 'Content-Type': 'application/json'},
+			body: JSON.stringify({ isActive: updatedActivity })
+		};
+        fetch(URL + playerId, requestOptions)
+        .then(response => response.json())
+        .then(data => { dispatch(updatePlayer(data)); })
+        .then(() => { dispatch(setStatus(REQ_STATUS.success)); })
+        .then(() => { dispatch(clearSelectedPlayer()); })
+        .catch((error) => {
+            dispatch(setStatus(REQ_STATUS.error));
+        });
+    };
+};

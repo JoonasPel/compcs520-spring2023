@@ -5,11 +5,19 @@
  * Here are the thunks that you can use to update the redux store:
  * - getSelectedPlayer, found in src\redux\actionCreators\thunks\ListPlayer.jsx
  */
+import { useDispatch } from "react-redux";
+import { getSelectedPlayer } from "../redux/actionCreators/thunks/ListPlayer";
 
-export const ListPlayer = ({ name, id, onClick }) => {
+export const ListPlayer = ({ name, id }) => {
+	const dispatch = useDispatch();
+
+	function clickHandler() {
+		dispatch(getSelectedPlayer(id));
+	};
+
 	return (
 		<li id={'player-' + id}>
-			<a href="#" onClick={() => onClick(id)}>{name}</a>
+			<a href="#" onClick={clickHandler}>{name}</a>
 		</li>
 	);
 };

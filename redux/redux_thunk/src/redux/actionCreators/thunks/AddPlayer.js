@@ -14,7 +14,6 @@
  * @param {Object} newPlayer -  The player to be added
  * @return {Function} - thunk with dispatch as param
  */
-import { useDispatch } from 'react-redux';
 import { setStatus } from "../statusActions";
 import { clearSelectedPlayer } from '../selectedPlayerActions';
 import { addPlayer } from '../playersActions';
@@ -38,5 +37,5 @@ export const postPlayer = (newPlayer) => {
         .catch((error) => {
             dispatch(setStatus(REQ_STATUS.error));
         });
-    }
+    };
 };

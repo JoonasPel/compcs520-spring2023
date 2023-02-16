@@ -45,4 +45,9 @@ export const removePlayer = (playerId) => {
  * @param {Object} player - The player with id and name that is to be updated in store.
  * @return {Object} action
  */
-export const updatePlayer = (player) => ({});
+export const updatePlayer = (player) => {
+    return {
+        type: UPDATE_PLAYER,
+        payload: player
+    };
+};

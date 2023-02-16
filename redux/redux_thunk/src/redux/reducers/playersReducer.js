@@ -29,9 +29,12 @@ const playersReducer = (state = initialState, action) => {
 		case REMOVE_PLAYER:
 			// action.payload is playerId
 			var newState = state.filter(pl => pl.id != action.payload);
-			return newState
+			return newState;
 		case UPDATE_PLAYER:
-			return state;	
+			var newState = JSON.parse(JSON.stringify(state));
+			var idx = newState.findIndex(pl => pl.id === action.payload.id);
+			newState[idx].isActive = action.payload.isActive;
+			return newState;
 		default:
 			return state;
 	}
