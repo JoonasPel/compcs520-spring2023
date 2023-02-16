@@ -18,13 +18,7 @@ const initialState = {};
 const selectedPlayerReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_SELECTED_PLAYER:
-			// this weird logic needed to pass autotests.
-			// actual app works with only (return action.payload.selectedPlayer;)
-			if (action.payload.selectedPlayer) {
-				return action.payload.selectedPlayer;
-			} else {
-				return action.payload;
-			}		
+			return action.payload;	
 		case CLEAR_SELECTED_PLAYER:
 			return {};
 		default:

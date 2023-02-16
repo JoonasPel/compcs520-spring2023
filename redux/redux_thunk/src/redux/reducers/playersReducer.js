@@ -23,13 +23,15 @@ const initialState = [];
 const playersReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_PLAYERS:
-			// this weird logic needed to pass autotests.
-			// actual app works with only (return action.payload.players;)
-			if (action.payload.players) {
-				return action.payload.players;
-			} else {
-				return action.payload;
-			}						
+			return action.payload;	
+		case ADD_PLAYER:
+			return [...state, action.payload];
+		case REMOVE_PLAYER:
+			// action.payload is playerId
+			var newState = state.filter(pl => pl.id != action.payload);
+			return newState
+		case UPDATE_PLAYER:
+			return state;	
 		default:
 			return state;
 	}

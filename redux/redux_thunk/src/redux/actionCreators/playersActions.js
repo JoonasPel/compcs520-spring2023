@@ -7,12 +7,12 @@
  * @param {Array} players - The players ids and names in an array.
  * @return {Object} action
  */
-import { SET_PLAYERS } from '../constants';
+import { SET_PLAYERS, ADD_PLAYER, REMOVE_PLAYER, UPDATE_PLAYER } from '../constants';
 
 export const setPlayers = (players) => {
     return {
         type: SET_PLAYERS,
-        payload: {players: players}
+        payload: players
     };
 };
 
@@ -21,14 +21,24 @@ export const setPlayers = (players) => {
  * @param {Object} player - The player with id and name that is to be included in store.
  * @return {Object} action
  */
-export const addPlayer = (player) => ({});
+export const addPlayer = (player) => {
+    return {
+        type: ADD_PLAYER,
+        payload: player
+    };
+};
 
 /**
  * @description normal action creator that returns an action with type REMOVE_PLAYER to the frontends reducers along with the payload of playerId.
  * @param {String} playerId - The players id.
  * @return {Object} action
  */
-export const removePlayer = (playerId) => ({});
+export const removePlayer = (playerId) => {
+    return {
+        type: REMOVE_PLAYER,
+        payload: playerId
+    };
+};
 
 /**
  * @description normal action creator that returns an action with type UPDATE_PLAYER to the frontends reducers along with the payload of player.

@@ -15,7 +15,28 @@
  *
  * Hint: You have to get the required details of the selected player from the store.
  */
-export const deleteSelectedPlayer = () => {};
+import { useDispatch } from 'react-redux';
+import { setStatus } from "../statusActions";
+import { REQ_STATUS } from '../../constants';
+import { removePlayer } from '../playersActions';
+import { clearSelectedPlayer } from '../selectedPlayerActions';
+import { useSelector } from "react-redux";
+
+export const deleteSelectedPlayer = () => {
+    return function(dispatch) {
+        const player = useSelector((state) => state.selectedPlayer);
+        dispatch(setStatus(REQ_STATUS.loading));
+        const requestOptions = { method: 'DELETE' };
+        fetch(URL + player.id, requestOptions)
+        .then(response => response.json())
+        .then(data => { dispatch(removePlayer(player.id)); })
+        .then(() => { dispatch(setStatus(REQ_STATUS.success)); })
+        .then(() => { dispatch(clearSelectedPlayer()); })
+        .catch((error) => {
+            dispatch(setStatus(REQ_STATUS.error));
+        });
+    };
+};
 
 /**
  * @description thunk for updating the selected player.

@@ -12,7 +12,7 @@ import { CLEAR_SELECTED_PLAYER, SET_SELECTED_PLAYER } from '../constants';
 export const setSelectedPlayer = (player) => {
     return {
         type: SET_SELECTED_PLAYER,
-        payload: { selectedPlayer: player}
+        payload: player
     };
 };
 

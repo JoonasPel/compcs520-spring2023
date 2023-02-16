@@ -12,6 +12,6 @@ import { SET_REQUEST_STATUS } from '../constants';
 export const setStatus = (status) => {
     return {
         type: SET_REQUEST_STATUS,
-        payload: {status: status}
+        payload: status
     };
 };
