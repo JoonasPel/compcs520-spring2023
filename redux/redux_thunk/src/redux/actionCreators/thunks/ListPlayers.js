@@ -25,8 +25,8 @@ export const getPlayers = () => {
             const response = await fetch(URL);
             if (response.ok) {
                 const data = await response.json();
-                dispatch(setPlayers(data));
                 dispatch(setStatus(REQ_STATUS.success));
+                dispatch(setPlayers(data));             
             } else {
                 dispatch(setStatus(REQ_STATUS.error));
             }

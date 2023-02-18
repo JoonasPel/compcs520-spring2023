@@ -34,8 +34,8 @@ export const deleteSelectedPlayer = () => {
             const response = await fetch(URL + playerId, requestOptions);
             if (response.ok) {
                 const data = await response.json();
-                dispatch(removePlayer(data.id)); // id should be same as playerId but just in case.
                 dispatch(setStatus(REQ_STATUS.success));
+                dispatch(removePlayer(data.id)); // id should be same as playerId but just in case.
                 dispatch(clearSelectedPlayer());
             } else {
                 dispatch(setStatus(REQ_STATUS.error));
@@ -83,9 +83,9 @@ export const updateSelectedPlayer = (updatedActivity) => {
             const response = await fetch(URL + playerId, requestOptions);
             if (response.ok) {
                 const data = await response.json();
+                dispatch(setStatus(REQ_STATUS.success));
                 dispatch(updatePlayer(data));
                 dispatch(clearSelectedPlayer());
-                dispatch(setStatus(REQ_STATUS.success));
             } else {
                 dispatch(setStatus(REQ_STATUS.error));
             }            

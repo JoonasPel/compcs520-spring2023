@@ -26,8 +26,8 @@ export const getSelectedPlayer = (id) => {
             const response = await fetch(URL + id);
             if (response.ok) {
                 const data = await response.json();
-                dispatch(setSelectedPlayer(data));
                 dispatch(setStatus(REQ_STATUS.success));
+                dispatch(setSelectedPlayer(data));
             } else {
                 dispatch(setStatus(REQ_STATUS.error));
             }

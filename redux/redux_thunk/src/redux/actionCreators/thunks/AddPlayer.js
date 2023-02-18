@@ -33,9 +33,9 @@ export const postPlayer = (newPlayer) => {
             const response = await fetch(URL, requestOptions);
             if (response.ok) {
                 const data = await response.json();
+                dispatch(setStatus(REQ_STATUS.success));
                 dispatch(addPlayer(data));
                 dispatch(clearSelectedPlayer());
-                dispatch(setStatus(REQ_STATUS.success));
             } else {
                 dispatch(setStatus(REQ_STATUS.error));
             }
