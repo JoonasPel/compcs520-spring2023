@@ -19,14 +19,20 @@ import { setStatus } from "../statusActions";
 const URL = "http://localhost:3001/api/players/";
 
 export const getPlayers = () => {
-    return function(dispatch) {
+    return async function(dispatch) {
         dispatch(setStatus(REQ_STATUS.loading));
-        fetch(URL)
-        .then(response => response.json())
-        .then(data => dispatch(setPlayers(data)))
-        .then(() => { dispatch(setStatus(REQ_STATUS.success)); })
-        .catch((error) => {
+        try {
+            const response = await fetch(URL);
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(setPlayers(data));
+                dispatch(setStatus(REQ_STATUS.success));
+            } else {
+                dispatch(setStatus(REQ_STATUS.error));
+            }
+        } catch (error) {
+            console.log(error);
             dispatch(setStatus(REQ_STATUS.error));
-        });
+        }
     };
 };

@@ -20,14 +20,20 @@ import { setStatus } from "../statusActions";
 const URL = "http://localhost:3001/api/players/";
 
 export const getSelectedPlayer = (id) => {
-    return function(dispatch) {
+    return async function(dispatch) {
         dispatch(setStatus(REQ_STATUS.loading));
-        fetch(URL + id)
-        .then(response => response.json())
-        .then(data => dispatch(setSelectedPlayer(data)))
-        .then(() => { dispatch(setStatus(REQ_STATUS.success)); })
-        .catch((error) => {
+        try {
+            const response = await fetch(URL + id);
+            if (response.ok) {
+                const data = await response.json();
+                dispatch(setSelectedPlayer(data));
+                dispatch(setStatus(REQ_STATUS.success));
+            } else {
+                dispatch(setStatus(REQ_STATUS.error));
+            }
+        } catch (error) {
+            console.log(error);
             dispatch(setStatus(REQ_STATUS.error));
-        });
+        }
     };
 };
