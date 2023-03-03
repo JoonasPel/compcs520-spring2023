@@ -19,5 +19,27 @@ import {
  * @param {Object} action the action that calls the reducer.
  * @returns {Array} new state for cart
  */
-const cartReducer = (state = [], action) => {};
+const initialState = [];
+
+const cartReducer = (state = initialState, action) => {
+	switch(action.type) {
+		case INIT_CART:
+			if (action.payload != []) {
+				return action.payload;
+			} else {
+				return state;
+			}
+		case ADD_CART_ITEM:
+			return [...state, action.payload];
+		case REMOVE_CART_ITEM:
+			return state.filter(item => item.product.id !== action.payload.id);
+		case UPDATE_CART_ITEM_AMOUNT:
+			return state.map(item => item.product.id === action.payload.productId ? 
+				{...item, quantity: item.quantity + action.payload.amount} : item);
+		case EMPTY_CART:
+			return [];
+		default:
+			return state;
+	};
+};
 export default cartReducer;
