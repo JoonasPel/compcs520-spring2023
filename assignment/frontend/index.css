@@ -1,0 +1,8 @@
+.rectangle {
+    display: inline-block;
+    width: 500px;
+    height: 50px;
+    padding: 10;
+    border: 4px solid blue;
+    background: rgba(10, 39, 95, 0.5);
+  }
