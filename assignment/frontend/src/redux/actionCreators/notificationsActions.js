@@ -13,12 +13,19 @@ import {
  * @param {String} newNotification.isSuccess - Tells whether or not it is a succesfull (green) or unsuccessfull (red) message
  * @return {Object} action
  */
-export const createNotification = (
-	newNotification = { message: '', isSuccess: false }
-) => ({});
+export const createNotification = (newNotification = { message: '', isSuccess: false }) => {
+	return {
+		type: NEW_NOTIFICATION,
+		payload: newNotification
+	};
+};
 
 /**
  * @description Action creator that sends a REMOVE_NOTIFICATION-type action
  * @return {Object} action
  */
-export const removeNotification = () => {};
+export const removeNotification = () => {
+	return {
+		type: REMOVE_NOTIFICATION
+	};
+};

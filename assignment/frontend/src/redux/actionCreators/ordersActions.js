@@ -1,7 +1,7 @@
 /** @format */
 
 // ORDER ACTION CREATORS
-
+import axios from 'axios';
 import {
 	NEW_NOTIFICATION,
 	GET_ORDERS,
@@ -10,29 +10,67 @@ import {
 	orderMsg,
 } from '../../tests/constants/redux.js';
 import { emptyCart } from './cartActions';
+import { createNotification } from './notificationsActions.js';
+const BASEURL = 'http://localhost:3001/api/orders/';
+
 /**
- * @description Action creator for getting a single order. Dispatches action with type GET_ORDER and payload of the fetched order if succesfull.
- * If the response is not ok, it only dispatches a NEW_NOTIFICATION-type action to the frontends notification state along with the error message from db as an unsuccessfull message.
+ * @description Action creator for getting a single order. Dispatches action with type GET_ORDER and payload of the
+ * fetched order if succesfull.
+ * If the response is not ok, it only dispatches a NEW_NOTIFICATION-type action to the frontends notification state
+ * along with the error message from db as an unsuccessfull message.
  * @param {String} orderId -  The id of the order to get
  * @return {Function} - Thunk -> action
  */
-export const getOrder = (orderId) => {};
+export const getOrder = (orderId) => {
+	return async (dispatch) => {
+		const url = BASEURL + orderId.toString();
+		const response = await axios.get(url);
+		if (response.status == 200) {
+			dispatch({ type: GET_ORDER, payload: response.data });
+		} else {
+			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		}
+	};
+};
 
 /**
- * @description Action creator for getting all orders. Dispatches action with type GET_ORDERS and payload of the fetched orders if succesfull.
- * If the response is not ok, it only dispatches a NEW_NOTIFICATION-type action to the frontends notification state along with the error message from db as an unsuccessfull message.
+ * @description Action creator for getting all orders. Dispatches action with type GET_ORDERS and payload
+ * of the fetched orders if succesfull.
+ * If the response is not ok, it only dispatches a NEW_NOTIFICATION-type action to the frontends notification
+ * state along with the error message from db as an unsuccessfull message.
  * @return {Function} - Thunk -> action
  */
-export const getOrders = () => {};
+export const getOrders = () => {
+	return async (dispatch) => {
+		const response = await axios.get(BASEURL);
+		if (response.status == 200) {
+			dispatch({ type: GET_ORDERS, payload: response.data });
+		} else {
+			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		}
+	};
+};
 
 /**
  * @description Action creator for adding a new order. Dispatches actions:
  * - ADD_ORDER-type with payload that has the new order
  * - EMPTY_CART-type with no payload
  * - NEW_NOTIFICATION with orderMsg.newOrder in the payload
- * If the response is not ok, it only dispatches a NEW_NOTIFICATION-type action to the frontends notification state along with the error message from db as an unsuccessfull message.
+ * If the response is not ok, it only dispatches a NEW_NOTIFICATION-type action to the frontends notification state
+ * along with the error message from db as an unsuccessfull message.
  *
  * @param {Object} newOrder -  The new order to post
  * @return {Function} - Thunk -> action
  */
-export const addOrder = (newOrder) => {};
+export const addOrder = (newOrder) => {
+	return async (dispatch) => {
+		const options = { data: { newOrder }};
+		const response = await axios.get(BASEURL, options);
+		if (response.status == 201) {
+			dispatch({ type: ADD_ORDER, payload: response.data });
+			dispatch(createNotification({ message: orderMsg.newOrder, isSuccess: true }));
+		} else {
+			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		}
+	};
+};
