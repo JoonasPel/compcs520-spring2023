@@ -12,14 +12,13 @@ import {
  * @param {Object} action the action that calls the reducer.
  * @returns {Object} new state for notification
  */
-initialState = { message: '', isSuccess: false };
+const initialState = {};
 
 const notificationReducer = (state = initialState, action) => {
 	switch(action.type) {
 		case NEW_NOTIFICATION:
 			return action.payload;
 		case REMOVE_NOTIFICATION:
-			// TODO TIMER
 			return initialState;
 		default:
 			return state;
