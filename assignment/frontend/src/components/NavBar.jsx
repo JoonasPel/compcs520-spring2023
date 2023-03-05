@@ -1,32 +1,32 @@
 // Navigation bar that should be displayed at the top in every page.
 
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { initApp } from "../redux/actionCreators/appActions";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { dataTestIds } from '../tests/constants/components.js';
 
+
 export const NavBar = () => {
-    const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
     const notification = useSelector((state) => state.notification);
-
-    useEffect(() => {dispatch(initApp())}, []);
+    const ids = dataTestIds.linkId;
 
     return (
-        <div data-testid={dataTestIds.NavBar} className="rectangle">
-            <a href="emt"> Home </a>
-            <a href="emt"> Products </a>
-            <a href="emt"> Cart </a>
-            <a href="emt"> Login </a>
-            <a href="emt"> Register </a>
+        <nav data-testid={dataTestIds.containerId.navbar} className="rectangle">
+            {/* navigation links */}
+            <Link to='/' data-testid={ids.home}> Home </Link>
+            <Link to='/products' data-testid={ids.products}> Products </Link>
+            <Link to='/cart' data-testid={ids.cart}> Cart </Link>
+            <Link to='/orders' data-testid={ids.orders}> Orders </Link>
+            <Link to='/login' data-testid={ids.login}> Login </Link>
+            <Link to='/register' data-testid={ids.register}> Register </Link>
+            {/* show user's role */}
             {'Your role: ' + auth.role}
-
+            {/* show notifications */}
             {notification.message ? 
             (<p>{'notification -> ' + notification.message}</p>)
             : (<p></p>)
             }
             
-        </div>
+        </nav>
     );
 };
