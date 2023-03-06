@@ -7,26 +7,28 @@ import { dataTestIds } from '../tests/constants/components.js';
 
 export const NavBar = () => {
     const auth = useSelector((state) => state.auth);
-    const notification = useSelector((state) => state.notification);
     const ids = dataTestIds.linkId;
+
+    // Available links in navbar and what role(s) can see it.
+    // Home(/) is not included here because it is a bit different
+    const linksForRoles = {
+        'guest': ['/products', '/cart', '/login', '/register'],
+        'customer': ['/products', '/orders', '/cart', '/logout'],
+        'admin': ['/products', '/orders', '/users', '/logout']
+    };
 
     return (
         <nav data-testid={dataTestIds.containerId.navbar} className="rectangle">
             {/* navigation links */}
-            <Link to='/' data-testid={ids.home}> Home </Link>
-            <Link to='/products' data-testid={ids.products}> Products </Link>
-            <Link to='/cart' data-testid={ids.cart}> Cart </Link>
-            <Link to='/orders' data-testid={ids.orders}> Orders </Link>
-            <Link to='/login' data-testid={ids.login}> Login </Link>
-            <Link to='/register' data-testid={ids.register}> Register </Link>
+            <Link to='/' data-testid={ids.home}> home </Link>
+            {linksForRoles[auth.role].map((link) =>
+                <Link to={link} data-testid={ids[link.substring(1)]}
+                    key={link}> {link.substring(1)} </Link>
+            )}
             {/* show user's role */}
-            {'Your role: ' + auth.role}
-            {/* show notifications */}
-            {notification.message ? 
-            (<p>{'notification -> ' + notification.message}</p>)
-            : (<p></p>)
-            }
-            
+            <p data-testid={dataTestIds.containerId.profile}>
+                {'Your role: ' + auth.role}</p>  
+
         </nav>
     );
 };

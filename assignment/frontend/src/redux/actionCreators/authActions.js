@@ -169,6 +169,7 @@ export const register = (registerCreds) => {
 			const url = BASEURL + 'register';
 			const options = { data: { name, email, password }};
 			const response = await axios.post(url, options);
+			console.log("response")
 			if (response.status == 201) {
 				dispatch({
 					type: INIT_AUTH,
@@ -179,8 +180,9 @@ export const register = (registerCreds) => {
 					isSuccess: true
 				}));
 			} else {
+				console.log("2040423042")
 				dispatch(createNotification({
-					message: response.statusText,
+					message: "response.statusText",
 					isSuccess: false
 				}));	
 			}
