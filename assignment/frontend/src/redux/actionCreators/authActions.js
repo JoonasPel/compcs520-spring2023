@@ -77,7 +77,7 @@ export const logIn = (logInCreds) => {
 			}));
 		 } else {
 			const url = BASEURL + 'login';
-			const options = { data: { email, password }};
+			const options = { email, password };
 			try {
 				const response = await axios.post(url, options);
 				dispatch({
@@ -171,10 +171,7 @@ export const register = (registerCreds) => {
 			}));
 		 } else {
 			const url = BASEURL + 'register';
-			const options = {
-				data: { name, email, password },
-				validateStatus: () => true
-			};
+			const options = { email, name, password };
 			try {
 				const response = await axios.post(url, options);
 				dispatch({
