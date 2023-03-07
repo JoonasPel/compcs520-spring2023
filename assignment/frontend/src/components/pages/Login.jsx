@@ -25,7 +25,7 @@ export const Login = () => {
             data-testid={dataTestIds.inputId.password}
             placeholder="Enter Password" />
 
-            <button type="submit">Login</button>
+            <button type="submit" data-testid={dataTestIds.clickId.submit}>Login</button>
         </form>
     );
 };

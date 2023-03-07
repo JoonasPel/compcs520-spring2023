@@ -35,7 +35,7 @@ export const Register = () => {
             data-testid={dataTestIds.inputId.passwordConfirmation}
             placeholder="Enter Password Again" />
 
-            <button type="submit">Register</button>
+            <button type="submit" data-testid={dataTestIds.clickId.submit}>Register</button>
         </form>
     );
 };
