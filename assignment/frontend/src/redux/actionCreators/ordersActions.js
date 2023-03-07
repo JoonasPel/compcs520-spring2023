@@ -24,11 +24,14 @@ const BASEURL = 'http://localhost:3001/api/orders/';
 export const getOrder = (orderId) => {
 	return async (dispatch) => {
 		const url = BASEURL + orderId.toString();
-		const response = await axios.get(url);
-		if (response.status == 200) {
+		try {
+			const response = await axios.get(url);
 			dispatch({ type: GET_ORDER, payload: response.data });
-		} else {
-			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
 		}
 	};
 };
@@ -42,11 +45,14 @@ export const getOrder = (orderId) => {
  */
 export const getOrders = () => {
 	return async (dispatch) => {
-		const response = await axios.get(BASEURL);
-		if (response.status == 200) {
+		try {
+			const response = await axios.get(BASEURL);
 			dispatch({ type: GET_ORDERS, payload: response.data });
-		} else {
-			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
 		}
 	};
 };
@@ -65,12 +71,16 @@ export const getOrders = () => {
 export const addOrder = (newOrder) => {
 	return async (dispatch) => {
 		const options = { data: { newOrder }};
-		const response = await axios.get(BASEURL, options);
-		if (response.status == 201) {
+		try {
+			const response = await axios.get(BASEURL, options);
 			dispatch({ type: ADD_ORDER, payload: response.data });
 			dispatch(createNotification({ message: orderMsg.newOrder, isSuccess: true }));
-		} else {
-			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		} catch (error) {
+			console.log(error)
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
 		}
 	};
 };

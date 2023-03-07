@@ -25,13 +25,17 @@ const BASEURL = 'http://localhost:3001/api/products/';
 export const getProduct = (productId) => {
 	return async (dispatch) => {
 		const url = BASEURL + productId.toString();
-		const response = await axios.get(url);
-		if (response.status == 200) {
+
+		try {
+			const response = await axios.get(url);
 			dispatch({ type: GET_PRODUCT, payload: response.data });
 			// autotests dont want this :(
 			//dispatch(createNotification({ message: productMsg.added, isSuccess: true }));
-		} else {
-			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
 		}
 	};
 };
@@ -42,13 +46,16 @@ export const getProduct = (productId) => {
  */
 export const getProducts = () => {
 	return async (dispatch) => {
-		const response = await axios.get(BASEURL);
-		if (response.status == 200) {
+		try {
+			const response = await axios.get(BASEURL);
 			dispatch({ type: GET_PRODUCTS, payload: response.data });
 			// autotests dont want this :(
 			//dispatch(createNotification({ message: productMsg.updated, isSuccess: true }));
-		} else {
-			dispatch(createNotification({ message: response. statusText, isSuccess: false }));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
 		}
 	};
 };
@@ -66,16 +73,20 @@ export const getProducts = () => {
 export const addProduct = (productToAdd) => {
 	return async (dispatch) => {
 		const options = { data: { productToAdd }};
-		const response = await axios.post(BASEURL, options);
-		if (response.status == 201) {
+		try {
+			const response = await axios.post(BASEURL, options);
 			dispatch({ type: ADD_PRODUCT, payload: response.data });
 			dispatch(createNotification({ message: productMsg.added, isSuccess: true }));
-		} else {
-			if (response.data) {
-				dispatch(createNotification({ message: response.data, isSuccess: false }));
-			} else {
-				dispatch(createNotification({ message: response.statusText, isSuccess: false }));
-			}		
+		} catch (error) {
+			let errorMessage;
+			typeof error.response.data.error === "object" ? 
+			errorMessage = error.response.data.error.image
+			:
+			errorMessage = error.response.data.error
+			dispatch(createNotification({
+				message: errorMessage,
+				isSuccess: false
+			}))
 		}
 	};
 };
@@ -93,12 +104,16 @@ export const updateProduct = (productToUpdate) => {
 	return async (dispatch) => {
 		const url = BASEURL + productToUpdate.id.toString();
 		const options = { data: { productToUpdate }};
-		const response = await axios.put(url, options);
-		if (response.status == 200) {
+
+		try {
+			const response = await axios.put(url, options);
 			dispatch({ type: UPDATE_PRODUCT, payload: response.data });
 			dispatch(createNotification({ message: productMsg.updated, isSuccess: true }));
-		} else {
-			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
 		}
 	};
 };
@@ -115,12 +130,18 @@ export const updateProduct = (productToUpdate) => {
 export const deleteProduct = (productId) => {
 	return async (dispatch) => {
 		const url = BASEURL + productId;
-		const response = await axios.delete(url);
-		if (response.status == 200) {
+		try {
+			const response = await axios.delete(url);
 			dispatch({ type: DELETE_PRODUCT, payload: response.data });
-			dispatch(createNotification({ message: productMsg.deleted(response.data), isSuccess: true }));
-		} else {
-			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+			dispatch(createNotification({
+				message: productMsg.deleted(response.data),
+				isSuccess: true
+			}));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
 		}
 	};
 };

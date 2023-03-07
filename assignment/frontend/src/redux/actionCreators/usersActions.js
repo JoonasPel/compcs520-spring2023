@@ -28,14 +28,17 @@ const BASEURL = 'http://localhost:3001/api/users/';
 export const getUser = (userId) => {
 	return async (dispatch) => {
 		const url = BASEURL + userId.toString();
-		const response = await axios.get(url);
-		if (response.status == 200) {
-			dispatch({ type: GET_USER, payload: response.data});
-			// autotests dont want this :(
-			//dispatch(createNotification({ message: userMsg.got, isSuccess: true }));
-		} else {
-			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
-		}
+			try {
+				const response = await axios.get(url);
+				dispatch({ type: GET_USER, payload: response.data});
+				// autotests dont want this :(
+				//dispatch(createNotification({ message: userMsg.got, isSuccess: true }));
+			} catch (error) {
+				dispatch(createNotification({
+					message: error.response.data.error,
+					isSuccess: false
+				}));
+			}
 	};
 };
 
@@ -49,13 +52,16 @@ export const getUser = (userId) => {
  */
 export const getUsers = () => {
 	return async (dispatch) => {
-		const response = await axios.get(BASEURL);
-		if (response.status == 200) {
+		try {
+			const response = await axios.get(BASEURL);
 			dispatch({ type: GET_USERS, payload: response.data});
 			// autotests dont want this :(
 			//dispatch(createNotification({ message: userMsg.gots, isSuccess: true }));
-		} else {
-			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
 		}
 	};
 };
@@ -72,13 +78,16 @@ export const getUsers = () => {
 export const updateUser = (updatedUser) => {
 	return async (dispatch) => {
 		const url = BASEURL + updatedUser.id.toString();
-		const options = { data: { updatedUser }}; 
-		const response = await axios.put(url, options);
-		if (response.status == 200) {
+		const options = { data: { updatedUser }};
+		try {
+			const response = await axios.put(url, options);
 			dispatch({ type: UPDATE_USER, payload: response.data});
 			dispatch(createNotification({ message: userMsg.update, isSuccess: true }));
-		} else {
-			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
 		}
 	};
 };
@@ -95,12 +104,18 @@ export const updateUser = (updatedUser) => {
 export const removeUser = (userId) => {
 	return async (dispatch) => {;
 		const url = BASEURL + userId.toString();
-		const response = await axios.delete(url);
-		if (response.status == 200) {
+		try {
+			const response = await axios.delete(url);
 			dispatch({ type: REMOVE_USER, payload: response.data });
-			dispatch(createNotification({message: userMsg.delete(response.data), isSuccess: true}));
-		} else {
-			dispatch(createNotification({message: response.statusText, isSuccess: false}));
-		}			
+			dispatch(createNotification({
+				message: userMsg.delete(response.data),
+				isSuccess: true
+			}));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
+		}		
 	};
 };

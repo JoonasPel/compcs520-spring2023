@@ -10,14 +10,14 @@ import { INIT_AUTH, REMOVE_AUTH } from '../../tests/constants/redux.js';
  * @param {Object} action the action that calls the reducer.
  * @returns {Object} new state for auth
  */
-const initialState = { role: 'guest' };
+const initialState = {};
 
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case INIT_AUTH:
             return action.payload;
         case REMOVE_AUTH:
-            return initialState;
+            return { role: 'guest' };
         default:
             return state;
     };

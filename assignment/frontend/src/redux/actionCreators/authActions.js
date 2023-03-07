@@ -17,7 +17,6 @@ const validEmailRegex =
 	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const BASEURL = 'http://localhost:3001/api/';
 
-
 //AUTH (THUNK) ACTION CREATORS
 /**
  *
@@ -33,11 +32,14 @@ const BASEURL = 'http://localhost:3001/api/';
 export const initAuth = () => {
 	return async (dispatch) => {
 		const url = BASEURL + 'check-status';
-		const response = await axios.get(url);
-		if (response.status == 200) {
+		try {
+			const response = await axios.get(url);
 			dispatch({ type: INIT_AUTH, payload: response.data.user});
-		} else {
-			dispatch(createNotification({ message: response.statusText, isSuccess: false }));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
 		}
 	};
 };
@@ -76,8 +78,8 @@ export const logIn = (logInCreds) => {
 		 } else {
 			const url = BASEURL + 'login';
 			const options = { data: { email, password }};
-			const response = await axios.post(url, options);
-			if (response.status == 200) {
+			try {
+				const response = await axios.post(url, options);
 				dispatch({
 					type: INIT_AUTH,
 					payload: response.data.user
@@ -86,11 +88,11 @@ export const logIn = (logInCreds) => {
 					message: authMsg.welcomeBack,
 					isSuccess: true
 				}));
-			} else {
+			} catch (error) {
 				dispatch(createNotification({
-					message: response.statusText,
+					message: error.response.data.error,
 					isSuccess: false
-				}));	
+				}));
 			}
 		 }	
 	};
@@ -108,12 +110,14 @@ export const logIn = (logInCreds) => {
 export const logOut = () => {
 	return async (dispatch) => {
 		const url = BASEURL + 'logout';
-		const response = await axios.get(url);
-		if (response.status == 200) {
+		try {
+			const response = await axios.get(url);
 			dispatch({ type: REMOVE_AUTH });
 			dispatch({ type: CLEAR_ORDERS });
 			dispatch({ type: CLEAR_USERS });
 			dispatch(createNotification({ message: "Logged out.", isSuccess: true }));
+		} catch (error) {
+			pass
 		}
 	};
 };
@@ -167,10 +171,12 @@ export const register = (registerCreds) => {
 			}));
 		 } else {
 			const url = BASEURL + 'register';
-			const options = { data: { name, email, password }};
-			const response = await axios.post(url, options);
-			console.log("response")
-			if (response.status == 201) {
+			const options = {
+				data: { name, email, password },
+				validateStatus: () => true
+			};
+			try {
+				const response = await axios.post(url, options);
 				dispatch({
 					type: INIT_AUTH,
 					payload: response.data.user
@@ -179,13 +185,17 @@ export const register = (registerCreds) => {
 					message: authMsg.welcome(response.data.user.name),
 					isSuccess: true
 				}));
-			} else {
-				console.log("2040423042")
+			} catch (error) {
+				let errorMessage;
+				typeof error.response.data.error === "object" ? 
+				errorMessage = "test-error"
+				:
+				errorMessage = error.response.error.email
 				dispatch(createNotification({
-					message: "response.statusText",
+					message: errorMessage,
 					isSuccess: false
-				}));	
+				}))
 			}
-		 }	
+		 }
 	};
 };
