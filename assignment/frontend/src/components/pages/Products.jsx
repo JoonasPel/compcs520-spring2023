@@ -1,18 +1,18 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../redux/actionCreators/productsActions";
 import { Product } from "../Product";
 import { dataTestIds } from "../../tests/constants/components";
+import { ProductCreator } from "../ProductCreator";
 
 
 export const Products = () => {
+    const [showCreator, setShowCreator] = useState(false);
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products);
     const auth = useSelector((state) => state.auth);
 
     useEffect(() => {products.length === 0 ? dispatch(getProducts()) : ""}, []);
-
- 
 
     return (       
         <>
@@ -30,7 +30,13 @@ export const Products = () => {
 
         {/* Product creator button for admin. TODO IMPLEMEND PRODUCT CREATOR*/}
         {auth.role === 'admin' ? 
-            <button tabIndex={0} data-testid={dataTestIds.clickId.add}>Add</button>
+            <button tabIndex={0}
+                data-testid={dataTestIds.clickId.add}
+                onClick={() => setShowCreator(!showCreator)}
+                >Add</button>
+        : ""}
+        {showCreator ?
+        <ProductCreator close={() => setShowCreator(false)}/>
         : ""}
 
         </>

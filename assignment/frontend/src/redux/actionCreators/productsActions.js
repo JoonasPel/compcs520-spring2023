@@ -71,7 +71,7 @@ export const getProducts = () => {
  */
 export const addProduct = (productToAdd) => {
 	return async (dispatch) => {
-		const body = { data: { productToAdd }};
+		const body = productToAdd;
 		try {
 			const response = await axios.post(BASEURL, body, { withCredentials: true });
 			dispatch({ type: ADD_PRODUCT, payload: response.data });
