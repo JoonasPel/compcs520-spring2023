@@ -10,6 +10,7 @@ import { Cart } from './components/pages/Cart.jsx';
 import { Orders } from './components/pages/Orders.jsx';
 import { Register } from './components/pages/Register.jsx';
 import { Login } from './components/pages/Login.jsx';
+import { Users } from './components/pages/Users.jsx';
 import { NotFound } from './components/pages/NotFound';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch} from 'react-redux';
@@ -39,6 +40,7 @@ const App = () => {
 					<Route path='orders' element={<Orders />} />
 					<Route path='register' element={<Register />} />
 					<Route path='login' element={<Login />} />
+					<Route path='users' element={<Users />} />
 					{/* If url doesnt match anything */}
 					<Route path='*' element={<NotFound />} />
 				</Routes>
