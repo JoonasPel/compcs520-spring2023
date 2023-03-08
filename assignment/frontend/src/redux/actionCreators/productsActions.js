@@ -25,9 +25,8 @@ const BASEURL = 'http://localhost:3001/api/products/';
 export const getProduct = (productId) => {
 	return async (dispatch) => {
 		const url = BASEURL + productId.toString();
-
 		try {
-			const response = await axios.get(url);
+			const response = await axios.get(url, { withCredentials: true });
 			dispatch({ type: GET_PRODUCT, payload: response.data });
 			// autotests dont want this :(
 			//dispatch(createNotification({ message: productMsg.added, isSuccess: true }));
@@ -47,7 +46,7 @@ export const getProduct = (productId) => {
 export const getProducts = () => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.get(BASEURL);
+			const response = await axios.get(BASEURL, { withCredentials: true });
 			dispatch({ type: GET_PRODUCTS, payload: response.data });
 			// autotests dont want this :(
 			//dispatch(createNotification({ message: productMsg.updated, isSuccess: true }));
@@ -72,9 +71,9 @@ export const getProducts = () => {
  */
 export const addProduct = (productToAdd) => {
 	return async (dispatch) => {
-		const options = { data: { productToAdd }};
+		const body = { data: { productToAdd }};
 		try {
-			const response = await axios.post(BASEURL, options);
+			const response = await axios.post(BASEURL, body, { withCredentials: true });
 			dispatch({ type: ADD_PRODUCT, payload: response.data });
 			dispatch(createNotification({ message: productMsg.added, isSuccess: true }));
 		} catch (error) {
@@ -103,10 +102,9 @@ export const addProduct = (productToAdd) => {
 export const updateProduct = (productToUpdate) => {
 	return async (dispatch) => {
 		const url = BASEURL + productToUpdate.id.toString();
-		const options = { data: { productToUpdate }};
-
+		const body = { data: { productToUpdate }};
 		try {
-			const response = await axios.put(url, options);
+			const response = await axios.put(url, body, { withCredentials: true });
 			dispatch({ type: UPDATE_PRODUCT, payload: response.data });
 			dispatch(createNotification({ message: productMsg.updated, isSuccess: true }));
 		} catch (error) {
@@ -131,7 +129,7 @@ export const deleteProduct = (productId) => {
 	return async (dispatch) => {
 		const url = BASEURL + productId;
 		try {
-			const response = await axios.delete(url);
+			const response = await axios.delete(url, { withCredentials: true });
 			dispatch({ type: DELETE_PRODUCT, payload: response.data });
 			dispatch(createNotification({
 				message: productMsg.deleted(response.data),

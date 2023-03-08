@@ -12,6 +12,7 @@ import {
 } from '../../tests/constants/redux';
 import { createNotification } from './notificationsActions';
 
+
 //You can use this  regex for email validation, taken from here: https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
 const validEmailRegex =
 	/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -33,7 +34,7 @@ export const initAuth = () => {
 	return async (dispatch) => {
 		const url = BASEURL + 'check-status';
 		try {
-			const response = await axios.get(url);
+			const response = await axios.get(url, { withCredentials: true });
 			dispatch({ type: INIT_AUTH, payload: response.data.user});
 		} catch (error) {
 			dispatch(createNotification({
@@ -77,9 +78,9 @@ export const logIn = (logInCreds) => {
 			}));
 		 } else {
 			const url = BASEURL + 'login';
-			const options = { email, password };
+			const body = { email, password };
 			try {
-				const response = await axios.post(url, options);
+				const response = await axios.post(url, body);
 				dispatch({
 					type: INIT_AUTH,
 					payload: response.data.user
@@ -111,7 +112,7 @@ export const logOut = () => {
 	return async (dispatch) => {
 		const url = BASEURL + 'logout';
 		try {
-			const response = await axios.get(url);
+			const response = await axios.get(url, { withCredentials: true });
 			dispatch({ type: REMOVE_AUTH });
 			dispatch({ type: CLEAR_ORDERS });
 			dispatch({ type: CLEAR_USERS });
@@ -171,9 +172,9 @@ export const register = (registerCreds) => {
 			}));
 		 } else {
 			const url = BASEURL + 'register';
-			const options = { email, name, password };
+			const body = { email, name, password };
 			try {
-				const response = await axios.post(url, options);
+				const response = await axios.post(url, body);
 				dispatch({
 					type: INIT_AUTH,
 					payload: response.data.user

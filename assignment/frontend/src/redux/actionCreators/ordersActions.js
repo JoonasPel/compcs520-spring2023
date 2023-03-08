@@ -25,7 +25,7 @@ export const getOrder = (orderId) => {
 	return async (dispatch) => {
 		const url = BASEURL + orderId.toString();
 		try {
-			const response = await axios.get(url);
+			const response = await axios.get(url, { withCredentials: true });
 			dispatch({ type: GET_ORDER, payload: response.data });
 		} catch (error) {
 			dispatch(createNotification({
@@ -46,7 +46,7 @@ export const getOrder = (orderId) => {
 export const getOrders = () => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.get(BASEURL);
+			const response = await axios.get(BASEURL, { withCredentials: true });
 			dispatch({ type: GET_ORDERS, payload: response.data });
 		} catch (error) {
 			dispatch(createNotification({
@@ -70,9 +70,9 @@ export const getOrders = () => {
  */
 export const addOrder = (newOrder) => {
 	return async (dispatch) => {
-		const options = { data: { newOrder }};
+		const body = { data: { newOrder }};
 		try {
-			const response = await axios.get(BASEURL, options);
+			const response = await axios.get(BASEURL, body, { withCredentials: true });
 			dispatch({ type: ADD_ORDER, payload: response.data });
 			dispatch(createNotification({ message: orderMsg.newOrder, isSuccess: true }));
 		} catch (error) {

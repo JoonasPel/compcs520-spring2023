@@ -28,17 +28,17 @@ const BASEURL = 'http://localhost:3001/api/users/';
 export const getUser = (userId) => {
 	return async (dispatch) => {
 		const url = BASEURL + userId.toString();
-			try {
-				const response = await axios.get(url);
-				dispatch({ type: GET_USER, payload: response.data});
-				// autotests dont want this :(
-				//dispatch(createNotification({ message: userMsg.got, isSuccess: true }));
-			} catch (error) {
-				dispatch(createNotification({
-					message: error.response.data.error,
-					isSuccess: false
-				}));
-			}
+		try {
+			const response = await axios.get(url, { withCredentials: true });
+			dispatch({ type: GET_USER, payload: response.data});
+			// autotests dont want this :(
+			//dispatch(createNotification({ message: userMsg.got, isSuccess: true }));
+		} catch (error) {
+			dispatch(createNotification({
+				message: error.response.data.error,
+				isSuccess: false
+			}));
+		}
 	};
 };
 
@@ -53,7 +53,7 @@ export const getUser = (userId) => {
 export const getUsers = () => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.get(BASEURL);
+			const response = await axios.get(BASEURL, { withCredentials: true });
 			dispatch({ type: GET_USERS, payload: response.data});
 			// autotests dont want this :(
 			//dispatch(createNotification({ message: userMsg.gots, isSuccess: true }));
@@ -78,9 +78,9 @@ export const getUsers = () => {
 export const updateUser = (updatedUser) => {
 	return async (dispatch) => {
 		const url = BASEURL + updatedUser.id.toString();
-		const options = { data: { updatedUser }};
+		const body = { data: { updatedUser }};
 		try {
-			const response = await axios.put(url, options);
+			const response = await axios.put(url, body, { withCredentials: true });
 			dispatch({ type: UPDATE_USER, payload: response.data});
 			dispatch(createNotification({ message: userMsg.update, isSuccess: true }));
 		} catch (error) {
@@ -105,7 +105,7 @@ export const removeUser = (userId) => {
 	return async (dispatch) => {;
 		const url = BASEURL + userId.toString();
 		try {
-			const response = await axios.delete(url);
+			const response = await axios.delete(url, { withCredentials: true });
 			dispatch({ type: REMOVE_USER, payload: response.data });
 			dispatch(createNotification({
 				message: userMsg.delete(response.data),
