@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../redux/actionCreators/productsActions";
 import { Product } from "../Product";
 import { dataTestIds } from "../../tests/constants/components";
-
+import { Outlet } from "react-router-dom";
 
 
 export const Products = () => {
@@ -14,8 +14,8 @@ export const Products = () => {
 
     return products.length === 0 ? (
         <div data-testid={dataTestIds.containerId.empty} />
-    ) : ( 
-        <ul>
+    ) : (     
+        <ul>      
             {products.map((product) => 
                 <Product key={product.id} product={product} />
             )}

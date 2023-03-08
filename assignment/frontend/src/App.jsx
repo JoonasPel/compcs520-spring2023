@@ -5,6 +5,7 @@ import { NavBar } from './components/NavBar.jsx';
 import { Notification } from './components/Notification.jsx';
 import { Home } from './components/pages/Home.jsx';
 import { Products } from './components/pages/Products';
+import { ProductDetails } from './components/pages/ProductDetails.jsx';
 import { Cart } from './components/pages/Cart.jsx';
 import { Orders } from './components/pages/Orders.jsx';
 import { Register } from './components/pages/Register.jsx';
@@ -27,12 +28,18 @@ const App = () => {
 			{/* Main content changed by routing */}
 			<div data-testid={dataTestIds.containerId.main}>
 				<Routes>
-					<Route path='/' element={<Home />} />
-					<Route path='/products' element={<Products />} />
-					<Route path='/cart' element={<Cart />} />
-					<Route path='/orders' element={<Orders />} />
-					<Route path='/register' element={<Register />} />
-					<Route path='/login' element={<Login />} />
+					<Route path='' element={<Home />} />
+					{/* sub route is not nested here because it was easier this way
+						to make it so that Products DOESN'T render when url is 
+						product/:productId. Only ProductDetails renders then. */}
+					<Route path='products' element={<Products />} /> 
+					<Route path="products/:productId" element={<ProductDetails />} />
+					
+					<Route path='cart' element={<Cart />} />
+					<Route path='orders' element={<Orders />} />
+					<Route path='register' element={<Register />} />
+					<Route path='login' element={<Login />} />
+					{/* If url doesnt match anything */}
 					<Route path='*' element={<NotFound />} />
 				</Routes>
 			</div>		
