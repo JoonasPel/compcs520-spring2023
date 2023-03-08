@@ -80,7 +80,7 @@ export const logIn = (logInCreds) => {
 			const url = BASEURL + 'login';
 			const body = { email, password };
 			try {
-				const response = await axios.post(url, body);
+				const response = await axios.post(url, body, { withCredentials: true });
 				dispatch({
 					type: INIT_AUTH,
 					payload: response.data.user
@@ -174,7 +174,7 @@ export const register = (registerCreds) => {
 			const url = BASEURL + 'register';
 			const body = { email, name, password };
 			try {
-				const response = await axios.post(url, body);
+				const response = await axios.post(url, body, { withCredentials: true });
 				dispatch({
 					type: INIT_AUTH,
 					payload: response.data.user

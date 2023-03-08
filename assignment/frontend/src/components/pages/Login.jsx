@@ -19,11 +19,13 @@ export const Login = () => {
         <form data-testid={dataTestIds.containerId.form} onSubmit={handleSubmit}>
             <input type="text"
             data-testid={dataTestIds.inputId.email}
-            placeholder="Enter Email" />
+            placeholder="Enter Email" 
+            required />
 
             <input type="password"
             data-testid={dataTestIds.inputId.password}
-            placeholder="Enter Password" />
+            placeholder="Enter Password" 
+            required />
 
             <button type="submit" data-testid={dataTestIds.clickId.submit}>Login</button>
         </form>

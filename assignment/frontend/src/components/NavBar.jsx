@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { dataTestIds } from '../tests/constants/components.js';
 import { logOut } from "../redux/actionCreators/authActions.js";
 
+// Capitalizes the first letter of a string.
+function capitalize1st(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
 export const NavBar = () => {
     const dispatch = useDispatch();
@@ -23,11 +27,13 @@ export const NavBar = () => {
         <nav data-testid={dataTestIds.containerId.navbar} className="rectangle">
             {/* NAVIGATION LINKS*/}
             {/* Home shown to everyone */}
-            <Link to='/' data-testid={ids.home}> home </Link>
+            <Link to='/' data-testid={ids.home}> Home </Link>
             {/* Links found in linksForRoles displayed depending on role. */}
             {linksForRoles[auth.role].map((link) =>
-                <Link to={link} data-testid={ids[link.substring(1)]}
-                    key={link}> {link.substring(1)} </Link>
+                <Link to={link}
+                    data-testid={ids[link.substring(1)]}
+                    key={link}
+                    > {capitalize1st(link.substring(1))} </Link>
             )}
             {/* Logout link shown to customer and admin. guest can't logout. */}
             {auth.role === 'admin' || auth.role === 'customer' ?

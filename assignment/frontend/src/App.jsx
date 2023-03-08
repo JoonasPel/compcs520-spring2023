@@ -24,15 +24,18 @@ const App = () => {
 		<div data-testid={dataTestIds.containerId.app}>
 			<NavBar />
 			<Notification />
-			<Routes>
-				<Route path='/' element={<Home />} />
-				<Route path='/products' element={<Products />} />
-				<Route path='/cart' element={<Cart />} />
-				<Route path='/orders' element={<Orders />} />
-				<Route path='/register' element={<Register />} />
-				<Route path='/login' element={<Login />} />
-				<Route path='*' element={<NotFound />} />
-			</Routes>
+			{/* Main content changed by routing */}
+			<div data-testid={dataTestIds.containerId.main}>
+				<Routes>
+					<Route path='/' element={<Home />} />
+					<Route path='/products' element={<Products />} />
+					<Route path='/cart' element={<Cart />} />
+					<Route path='/orders' element={<Orders />} />
+					<Route path='/register' element={<Register />} />
+					<Route path='/login' element={<Login />} />
+					<Route path='*' element={<NotFound />} />
+				</Routes>
+			</div>		
 		</div>
 	);
 };

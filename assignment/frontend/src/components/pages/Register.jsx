@@ -21,19 +21,23 @@ export const Register = () => {
         <form data-testid={dataTestIds.containerId.form} onSubmit={handleSubmit}>
             <input type="text"
             data-testid={dataTestIds.inputId.name}
-            placeholder="Enter Name" />
+            placeholder="Enter Name" 
+            required />
 
             <input type="text"
             data-testid={dataTestIds.inputId.email}
-            placeholder="Enter Email" />
+            placeholder="Enter Email" 
+            required />
 
             <input type="password"
             data-testid={dataTestIds.inputId.password}
-            placeholder="Enter Password" />
+            placeholder="Enter Password" 
+            required />
 
             <input type="password"
             data-testid={dataTestIds.inputId.passwordConfirmation}
-            placeholder="Enter Password Again" />
+            placeholder="Enter Password Again" 
+            required />
 
             <button type="submit" data-testid={dataTestIds.clickId.submit}>Register</button>
         </form>
