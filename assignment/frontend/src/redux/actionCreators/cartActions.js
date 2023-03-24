@@ -35,7 +35,7 @@ export const initCart = () => {
  */
 export const addCartItem = (product) => {
 	localStorage.setItem(product.id, {product, quantity: 1});
-	return (dispatch) => {		
+	return (dispatch) => {
 		dispatch({ type: ADD_CART_ITEM, payload: {product, quantity: 1 }});
 		dispatch(createNotification({ message: cartMsg.add, isSuccess: true }));		
 	};
@@ -71,8 +71,6 @@ export const incrementCartItem = (productId) => {
 	if (product !== null) {
 		const quantity = product.quantity;
 		localStorage.setItem(productId, { product, quantity: quantity + 1 });
-	} else {
-		localStorage.setItem();
 	}
 	return (dispatch) => {
 		dispatch({
@@ -116,8 +114,6 @@ export const decrementCartItem = (productId) => {
  * @returns {Object} the action
  */
 export const emptyCart = () => {
-	// Calling setItem() because autotest wants it to be called
-	localStorage.setItem();
 	localStorage.clear();
 	return {
 		type: EMPTY_CART

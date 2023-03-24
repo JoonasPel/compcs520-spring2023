@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../redux/actionCreators/productsActions";
 import { Product } from "../Product";
 import { dataTestIds } from "../../tests/constants/components";
@@ -28,7 +28,7 @@ export const Products = () => {
             </ul>
         )}
 
-        {/* Product creator button for admin. TODO IMPLEMEND PRODUCT CREATOR*/}
+        {/* Product creator button for admin */}
         {auth.role === 'admin' ? 
             <button tabIndex={0}
                 data-testid={dataTestIds.clickId.add}

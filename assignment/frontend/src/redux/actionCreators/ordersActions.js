@@ -70,13 +70,12 @@ export const getOrders = () => {
  */
 export const addOrder = (newOrder) => {
 	return async (dispatch) => {
-		const body = { data: { newOrder }};
+		const body = { items: newOrder };
 		try {
-			const response = await axios.get(BASEURL, body, { withCredentials: true });
+			const response = await axios.post(BASEURL, body, { withCredentials: true });
 			dispatch({ type: ADD_ORDER, payload: response.data });
 			dispatch(createNotification({ message: orderMsg.newOrder, isSuccess: true }));
 		} catch (error) {
-			console.log(error)
 			dispatch(createNotification({
 				message: error.response.data.error,
 				isSuccess: false

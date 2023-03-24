@@ -11,7 +11,7 @@ export const Notification = () => {
 
     return notification.message ? (
         <div data-testid={dataTestIds.containerId.notification}>
-            <p data-testid={dataTestIds.inputId.description}>
+            <p data-testid={dataTestIds.valueId.description}>
                 {notification.message}
             </p>
         </div>

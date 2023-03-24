@@ -6,6 +6,7 @@ import { Notification } from './components/Notification.jsx';
 import { Home } from './components/pages/Home.jsx';
 import { Products } from './components/pages/Products';
 import { ProductDetails } from './components/pages/ProductDetails.jsx';
+import { OrderDetails } from './components/pages/OrderDetails.jsx';
 import { Cart } from './components/pages/Cart.jsx';
 import { Orders } from './components/pages/Orders.jsx';
 import { Register } from './components/pages/Register.jsx';
@@ -38,6 +39,8 @@ const App = () => {
 					
 					<Route path='cart' element={<Cart />} />
 					<Route path='orders' element={<Orders />} />
+					<Route path="orders/:orderId" element={<OrderDetails />} />
+
 					<Route path='register' element={<Register />} />
 					<Route path='login' element={<Login />} />
 					<Route path='users' element={<Users />} />

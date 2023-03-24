@@ -1,11 +1,12 @@
-import {  useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { dataTestIds } from "../../tests/constants/components";
+import { addCartItem, incrementCartItem } from "../../redux/actionCreators/cartActions";
 
 
 export const ProductDetails = () => {
+    const dispatch = useDispatch();
     const { productId } = useParams();
-
 
     /**
      * Doing like this is a bit weird way but grader autotests limit the possibilities.
@@ -23,12 +24,25 @@ export const ProductDetails = () => {
     if (product === undefined || !keys.every(key => Object.keys(product).includes(key))) {
         return (<label>Error. Can't find product.</label>)
     }
+    const cartItems = useSelector((state) => state.cart);
+
+    function handleAdd() {
+        if (cartItems.some(item => item.product.name === product.name)) {
+            dispatch(incrementCartItem(product.id));
+        } else {
+            dispatch(addCartItem(product));
+        }   
+    };
 
     return (
         <div>
             <label>{product.name}</label>
             <label>{product.description}</label>
             <label>{product.price}</label>
+            <button tabIndex={0}
+                data-testid={dataTestIds.clickId.add}
+                onClick={() => handleAdd()}
+            >Add to Cart</button>
         </div>
     );
 };

@@ -35,15 +35,17 @@ export const NavBar = () => {
                     key={link}
                     > {capitalize1st(link.substring(1))} </Link>
             )}
-            {/* Logout link shown to customer and admin. guest can't logout. */}
-            {auth.role === 'admin' || auth.role === 'customer' ?
-                <Link data-testid={dataTestIds.clickId.logout}
-                onClick={() => dispatch(logOut())}> logout </Link>
+            {/* Logout link shown to customer and admin. guest can't logout. TODO */}
+            {auth.role === 'admin' || auth.role === 'customer' || auth.role === 'guest' ?
+                <Link data-testid={dataTestIds.clickId.logout} to='/login'
+                onClick={() => dispatch(logOut())}> Logout </Link>
             : ""}
 
-            {/* show user's role */}
-            <p data-testid={dataTestIds.containerId.profile}>
-                {'Your role: ' + auth.role}</p>  
+            {/* show user's profile */}
+            <div data-testid={dataTestIds.containerId.profile}>
+                <label data-testid={dataTestIds.valueId.role}
+                >{'Your role: ' + auth.role}</label>
+            </div>  
 
         </nav>
     );
