@@ -14,7 +14,6 @@ export const Users = () => {
 
     return (
         <>
-
         {/* Users container */}
         {users.length === 0 ? (
             <div data-testid={dataTestIds.containerId.empty} />
@@ -25,7 +24,6 @@ export const Users = () => {
                 )}
             </ul>
         )}
-
         </>
     );
 };

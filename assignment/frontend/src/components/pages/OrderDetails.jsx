@@ -13,7 +13,7 @@ export const OrderDetails = () => {
     useEffect(() => {dispatch(getOrder(orderId))}, []);
 
     if (orders.length === 1 ) {
-        const order = orders[0]
+        const order = orders[0];
         return (
             <div data-testid={dataTestIds.containerId.inspect}>
                 {order.items.map((item) =>
