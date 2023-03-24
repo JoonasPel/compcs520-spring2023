@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { dataTestIds } from "../../tests/constants/components";
 import { useParams } from "react-router-dom";
 import { getUser, updateUser } from "../../redux/actionCreators/usersActions";
@@ -8,28 +8,40 @@ export const UserModifier = () => {
     const dispatch = useDispatch();
     const { userId } = useParams();
     const auth = useSelector((state) => state.auth);
-    const users = useSelector((state) => state.users);
-
+    const user = useSelector((state) => state.users[0]);
+    const [roleSelected, setRoleSelected] = useState("customer");
+    
     useEffect(() => {dispatch(getUser(userId))}, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(updateUser("userobject TODO"));
+        console.log(user)
+        console.log({...user, role: roleSelected})
+        //dispatch(updateUser());
+    };
+    const handleRadioButton = (event) => {
+        setRoleSelected(event.target.value);
     };
 
-    if (users.length === 1) {
-        const user = users[0];
-        return (
-            <form data-testid={dataTestIds.containerId.form} onSubmit={handleSubmit}>
-                <p data-testid={dataTestIds.valueId.name}>{user.name}</p>
+    if (!user) return (<>Loading</>);
 
-                <button type="submit" data-testid={dataTestIds.clickId.submit}>Submit</button>
-            </form>
-
-        );
-    } else {
-        return (<></>);
-    }
-
-    
+    return (
+        <form data-testid={dataTestIds.containerId.form} onSubmit={handleSubmit}>
+            <p data-testid={dataTestIds.valueId.name}>{user.name}</p>
+            <label>
+                Customer
+                <input type="radio" value="customer"
+                    checked={roleSelected === "customer"}
+                    onChange={handleRadioButton}/>
+            </label>
+            <label>
+                Admin
+                <input type="radio" value="admin" 
+                    checked={roleSelected === "admin"}
+                    onChange={handleRadioButton}/>
+            </label>
+            <button type="submit" data-testid={dataTestIds.clickId.submit}
+                disabled={user.role === roleSelected}>Submit</button>
+        </form>
+    );
 };
