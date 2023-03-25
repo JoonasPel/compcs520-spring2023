@@ -10,8 +10,7 @@ export const Users = () => {
     const users = useSelector((state) => state.users);
     const auth = useSelector((state) => state.auth);
 
-    useEffect(() => {users.length === 0 ? dispatch(getUsers()) : ""}, []);
-
+    useEffect(() => {users.length <= 1 ? dispatch(getUsers()) : ""}, []);
     return (
         <>
         {/* Users container */}
