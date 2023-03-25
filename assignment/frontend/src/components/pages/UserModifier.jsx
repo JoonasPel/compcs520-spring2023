@@ -15,9 +15,7 @@ export const UserModifier = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(user)
-        console.log({...user, role: roleSelected})
-        //dispatch(updateUser());
+        dispatch(updateUser({...user, role: roleSelected}));
     };
     const handleRadioButton = (event) => {
         setRoleSelected(event.target.value);

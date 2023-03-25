@@ -78,7 +78,7 @@ export const getUsers = () => {
 export const updateUser = (updatedUser) => {
 	return async (dispatch) => {
 		const url = BASEURL + updatedUser.id.toString();
-		const body = { data: { updatedUser }};
+		const body = {role: updatedUser.role};
 		try {
 			const response = await axios.put(url, body, { withCredentials: true });
 			dispatch({ type: UPDATE_USER, payload: response.data});
