@@ -10,27 +10,7 @@ export const Login = () => {
 
     function handleSubmit(event) {
         event.preventDefault();
-        const mail = email;
-        let pass = password;
-        
-        // autotests / grader has a bug and types wrong password i think.
-        // so this should change it to right 
-        if (mail === 'customer@email.com') {
-            if (password.length < 10) {
-                pass = '12345'
-            } else if (password === 'wrongPassword') {
-                pass = 'wrongPassword'
-            } else {
-                pass = '0987654321';
-            } 
-        } else if (mail === 'customer3@email.com') {
-            pass = '6wyksfgwag'
-        }
-
-        dispatch(logIn({
-            email: mail,
-            password: pass
-        }));
+        dispatch(logIn({ email, password }));
         // clear form
         setEmail("");
         setPassword("");
