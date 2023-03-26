@@ -47,7 +47,7 @@ export const UserModifier = () => {
             </div>       
             <button type="submit" data-testid={dataTestIds.clickId.submit}
                 disabled={user.role === roleSelected}>Submit</button>
-            <button data-testid={dataTestIds.clickId.cancel}
+            <button type="button" data-testid={dataTestIds.clickId.cancel}
                 onClick={handleClick}>Cancel</button>
         </form>
     );
