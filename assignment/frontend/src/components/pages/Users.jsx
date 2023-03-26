@@ -19,7 +19,7 @@ export const Users = () => {
         ) : (     
             <ul>      
                 {users.map((user) => 
-                    <User key={user.id} user={user} />
+                    <User key={user.id} user={user} showLink={true}/>
                 )}
             </ul>
         )}

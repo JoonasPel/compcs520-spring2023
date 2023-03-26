@@ -11,7 +11,7 @@ export const UserModifier = () => {
     const { userId } = useParams();
     const auth = useSelector((state) => state.auth);
     const user = useSelector((state) => state.users[0]);
-    const [roleSelected, setRoleSelected] = useState("customer");
+    const [roleSelected, setRoleSelected] = useState("");
     
     useEffect(() => {dispatch(getUser(userId))}, []);
     
@@ -27,7 +27,7 @@ export const UserModifier = () => {
     };
 
     if (!user) return (<>Loading</>);
-
+    if(!roleSelected) setRoleSelected(user.role);
     return (
         <form data-testid={dataTestIds.containerId.form} onSubmit={handleSubmit}>
             <p data-testid={dataTestIds.valueId.name}>{user.name}</p>
@@ -36,13 +36,13 @@ export const UserModifier = () => {
                     Customer
                     <input type="radio" value="customer"
                         checked={roleSelected === "customer"}
-                        onChange={handleRadioButton}/>
+                        onChange={handleRadioButton} />
                 </label>
                 <label>
                     Admin
                     <input type="radio" value="admin" 
                         checked={roleSelected === "admin"}
-                        onChange={handleRadioButton}/>
+                        onChange={handleRadioButton} />
                 </label>
             </div>       
             <button type="submit" data-testid={dataTestIds.clickId.submit}

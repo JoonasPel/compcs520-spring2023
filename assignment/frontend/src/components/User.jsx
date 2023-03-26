@@ -5,7 +5,7 @@ import { removeUser } from "../redux/actionCreators/usersActions";
 import { useNavigate } from "react-router-dom";
 
 
-export const User = ({user, deletionCallBack}) => {
+export const User = ({user, deletionCallBack, showLink}) => {
     const auth = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,7 +22,11 @@ export const User = ({user, deletionCallBack}) => {
         <div data-testid={dataTestIds.containerId.listItem(user.id)}>
             <label data-testid={dataTestIds.valueId.name}>{user.name}</label>
             <label data-testid={dataTestIds.valueId.role}>{user.role}</label>
-            <Link to={user.id} data-testid={dataTestIds.linkId.inspect}> User Link </Link>
+            
+            {showLink ? (
+                <Link to={user.id} data-testid={dataTestIds.linkId.inspect}
+                >User Link</Link>
+            ) : ("")}   
 
             {/* modify and delete buttons if this user is not their own */}
             {user.id !== auth.id ? (
