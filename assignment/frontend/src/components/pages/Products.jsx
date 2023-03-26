@@ -14,6 +14,12 @@ export const Products = () => {
 
     useEffect(() => {products.length === 0 ? dispatch(getProducts()) : ""}, []);
 
+    const handleClick = () => {
+        if (auth.role === 'admin') {
+            setShowCreator(!showCreator);
+        }
+    };
+
     return (       
         <>
 
@@ -28,13 +34,9 @@ export const Products = () => {
             </ul>
         )}
 
-        {/* Product creator button for admin */}
-        {auth.role === 'admin' ? 
-            <button tabIndex={0}
-                data-testid={dataTestIds.clickId.add}
-                onClick={() => setShowCreator(!showCreator)}
-                >Add</button>
-        : ""}
+        {/* Product creator for admin */}
+        <button tabIndex={0} data-testid={dataTestIds.clickId.add}
+            onClick={handleClick}>Add</button>
         {showCreator ?
         <ProductCreator close={() => setShowCreator(false)}/>
         : ""}
