@@ -12,6 +12,7 @@ import { Orders } from './components/pages/Orders.jsx';
 import { Register } from './components/pages/Register.jsx';
 import { Login } from './components/pages/Login.jsx';
 import { Users } from './components/pages/Users.jsx';
+import { UserPage } from './components/pages/UserPage.jsx';
 import { UserModifier } from './components/pages/UserModifier.jsx';
 import { NotFound } from './components/pages/NotFound';
 import { Route, Routes } from 'react-router-dom';
@@ -45,6 +46,7 @@ const App = () => {
 					<Route path='register' element={<Register />} />
 					<Route path='login' element={<Login />} />
 					<Route path='users' element={<Users />} />
+					<Route path='users/:userId' element={<UserPage />} />
 					<Route path='users/:userId/modify' element={<UserModifier />} />
 					{/* If url doesnt match anything */}
 					<Route path='*' element={<NotFound />} />

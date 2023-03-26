@@ -5,7 +5,7 @@ import { removeUser } from "../redux/actionCreators/usersActions";
 import { useNavigate } from "react-router-dom";
 
 
-export const User = ({user}) => {
+export const User = ({user, deletionCallBack}) => {
     const auth = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -15,6 +15,7 @@ export const User = ({user}) => {
     };
     const handleDelete = () => {  
         dispatch(removeUser(user.id));
+        if (deletionCallBack) deletionCallBack();
     };
 
     return (
